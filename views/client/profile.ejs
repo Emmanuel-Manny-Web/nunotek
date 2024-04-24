@@ -1,0 +1,263 @@
+<html lang="en">
+<%- include('../partials/clients/head') %>
+
+  <body>
+
+
+    <div class="wrapper">
+      <%- include('../partials/clients/sidebar') %>
+
+        <div class="main">
+          <%- include('../partials/clients/header') %>
+
+            <main class="content">
+              <div class="container-fluid p-0">
+
+                <h1 class="h3 my-5">Profile</h1>
+
+                <div class="row">
+                  <div class="col-12">
+
+
+                    <div class="container">
+                      <div class="row justify-content-center">
+                        <div class="col-md-10 d-flex">
+                          <div class="w-100">
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col mt-0">
+                                        <h5 class="card-title">Current Balance</h5>
+                                      </div>
+  
+                                      <div class="col-auto">
+                                        <div class="stat text-primary">
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-truck align-middle">
+                                            <rect x="1" y="3" width="15" height="13"></rect>
+                                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">₦ <%= Number(wallet.amount).toLocaleString() %>
+                                    </h1>
+                                    <div class="mb-0">
+  
+                                      <span class="text-muted">Available balance!!!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card">
+                                  <div class="card-body">
+                                    <div class="row">
+                                      <div class="col mt-0">
+                                        <h5 class="card-title">Withdrawable Funds</h5>
+                                      </div>
+  
+                                      <div class="col-auto">
+                                        <div class="stat text-primary">
+                                          ₦
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <h1 class="mt-1 mb-3">₦ <%= Number(wallet.profit).toLocaleString() %>
+                                    </h1>
+                                    <div class="mb-0">
+  
+                                      <span class="text-muted">Withdrawal - Deposit</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+  
+  
+                      </div>
+                      <div class="row justify-content-center mt-4">
+                        <div class="col-md-10">
+                          <div class="card ">
+                            <div class="card-body">
+                              <form class="register prevent-double-click auth-form" action="" method="post">
+                                <div class="rows">
+                                  <div class="form-group mb-3">
+                                    <label for="address" class="col-form-label">Referral Link:</label>
+                                    <div class="d-flex">
+                                      <input type="text" class="form-control" id="referral-link" name="address"
+                                        placeholder="Link" value=<%='http://localhost:3000/register?code=' +
+                                        user.referralcode %> required="" disabled>
+                                      <span class="mt-2 ms-2" id="copy-link" style="cursor: pointer;"><i class="fa-solid fa-copy"></i></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="form-group mb-3">
+                                    <label for="InputFirstname" class="col-form-label">First Name:</label>
+                                    <input type="text" class="form-control" id="InputFirstname" name="firstname"
+                                      placeholder="First Name" value=<%=user.firstname %> minlength="3" disabled>
+                                  </div>
+                                  <div class="form-groupmb-3">
+                                    <label for="lastname" class="col-form-label">Last Name:</label>
+                                    <input type="text" class="form-control" id="lastname" name="lastname"
+                                      placeholder="Last Name" value=<%=user.lastname %> required="" disabled>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="form-group mb-3">
+                                    <label for="email" class="col-form-label">E-mail Address:</label>
+                                    <input class="form-control" id="email" placeholder="E-mail Address"
+                                      value=<%=user.email %> disabled="">
+                                  </div>
+                                  <div class="form-group mb-3">
+                                    <label for="email" class="col-form-label">Phone Number:</label>
+                                    <input class="form-control" id="email" placeholder="E-mail Address"
+                                      value=<%=user.phone %> disabled="">
+                                  </div>
+                                  <div class="form-group mb-3">
+                                    <label for="phone" class="col-form-label">Referral Code</label>
+                                    <div class="d-flex">
+                                      <input class="form-control" id="code" value=<%=user.referralcode %> disabled>
+                                      <span class="mt-2 ms-2" id="copy-code" style="cursor: pointer;"><i class="fa-solid fa-copy"></i></span>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <!-- <div class="rows">
+                                <div class="form-group mb-3">
+                                    <label for="zip" class="col-form-label">Zip Code:</label>
+                                    <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip Code" value="" required="">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="city" class="col-form-label">City:</label>
+                                    <input type="text" class="form-control" id="city" name="city" placeholder="City" value="" required="">
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label class="col-form-label">Country:</label>
+                                    <input class="form-control" name="country" value="">
+                                </div>
+
+                            </div> -->
+
+                                <!-- <div class="form-group pt-5">
+                                <div class="col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-block btn-primary w-100">Update Profile</button>
+                                </div>
+                            </div> -->
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </main>
+
+            <%- include('../partials/clients/footer') %>
+        </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+
+    <script src="js/app.js"></script>
+
+
+    <!-- <script src="https://agrofi-farm.com/assets/templates/basic//js/bootstrap-fileinput.js"></script> -->
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%- include('../partials/clients/whatsapp') %>
+      <!-- <a href="https://t.me/+lNjUUwJvDiI1M2Y8" class="float" target="_blank" title="Join official channel" data-toggle="tooltip">
+    <i class="fa fa-telegram my-float"></i>
+</a> -->
+
+      <style type="text/css">
+        .float {
+          position: fixed;
+          width: 60px;
+          height: 60px;
+          bottom: 80px;
+          right: 40px;
+          background-color: #0d93e9;
+          color: #FFF;
+          border-radius: 50px;
+          text-align: center;
+          font-size: 30px;
+          box-shadow: 2px 2px 3px #999;
+          z-index: 100;
+        }
+
+        .my-float {
+          margin-top: 16px;
+        }
+      </style>
+      <link rel="stylesheet" href="css/izitoast.min.css">
+      <script src="js/iziToast.min.js"></script>
+      <script src="vipalat/js/jquery.min.js" type="text/javascript"></script>
+
+      <script>
+        "use strict";
+        function notify(status, message) {
+          iziToast[status]({
+            message: message,
+            position: "topRight"
+          });
+        }
+        const form = document.querySelector("form")
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault()
+
+          const firstname = form.firstname.value
+          const lastname = form.lastname.value
+
+          const res = await fetch('/profile-setting', {
+            method: "put",
+            body: JSON.stringify({ firstname, lastname }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          if (data.ok) {
+            notify("success", `${data.message}`)
+          } else notify("error", `${data.error}`)
+        })
+
+        function copy_value(id, text) {
+          var copyText = document.getElementById(id);
+          var textArea = document.createElement("textarea");
+          textArea.value = copyText.value;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("Copy");
+          textArea.remove();
+
+          iziToast.success({ message: text + ": " + copyText.value, position: "topRight" });
+        }
+
+        $("#copy-link").on("click", function () {
+          copy_value("referral-link", "Referral link copied ");
+        });
+
+        $("#copy-code").on("click", function () {
+          copy_value("code", "Referral code copied ");
+        });
+
+      </script>
+
+  </body>
+
+</html>

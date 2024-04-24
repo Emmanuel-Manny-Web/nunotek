@@ -1,0 +1,135 @@
+<html lang="en">
+  <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Payout Logs</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">Payout Logs</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+
+  <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+      <div class="card-body">
+
+          <div class="table-responsive">
+						<table class="categories-show-table table table-hover table-striped table-bordered">
+							<thead class="thead-dark">
+							<tr>
+									<th scope="col">Date</th>
+									<th scope="col">Narration</th>
+									<th scope="col">Name</th>
+									<th scope="col">Method</th>
+									<th scope="col">Amount</th>
+									<th scope="col">Status</th>
+									<th scope="col">Action</th>
+							</tr>
+							</thead>
+							<tbody>
+								<% deposits.forEach((deposit) => { %>
+									<tr>
+										<td data-label="Date"> <%= deposit.createdAt.toString().slice(0, 21) %></td>
+										<td data-label="Narration" class="font-weight-bold text-uppercase"><%= deposit.narration %></td>
+										<td data-label="Name">
+										<a href="javascript:void(0)" target="_blank">
+										<div class="d-flex no-block align-items-center">
+												<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
+												</div>
+												<div class="">
+														<h5 class="text-dark mb-0 font-16 font-weight-medium">
+															<%= deposit.user.firstname %> <%= deposit.user.lastname %>
+														</h5>
+														<span class="text-muted font-14"><%= deposit.email %></span>
+												</div>
+										</div>
+										</a>
+										</td>
+										<td data-label="Method">Bank Transfer</td>
+										<td data-label="Amount" class="font-weight-bold">₦ <%= Number(deposit.amount).toLocaleString() %></td>
+										<td data-label="Status">
+											<% if(deposit.status === 'Approved') { %>
+												<span class="badge badge-success"><%= deposit.status %></span>
+											<% } else { %>
+												<span class="badge badge-danger"><%= deposit.status %></span>
+											<% } %>
+										</td>
+										<td data-label="Action">
+											-
+										</td>
+									</tr>
+								<% }) %>
+							</tbody>
+						</table>
+          </div>
+      </div>
+  </div>
+
+  <!-- Modal for Edit button -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content ">
+              <div class="modal-header modal-colored-header bg-primary">
+                  <h4 class="modal-title" id="myModalLabel">Deposit Information</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </div>
+
+              <form role="form" method="POST" class="actionRoute" action="" enctype="multipart/form-data">
+                  <input type="hidden" name="_token" value="5JvryEuPAPZLpm7SN0mG8H08tmqsFl2CUpWOi4YU">                    <input type="hidden" name="_method" value="put">                    <div class="modal-body">
+                      <ul class="list-group withdraw-detail">
+                      </ul>
+
+                      <div class="get-feedback">
+
+                      </div>
+
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
+      <footer class="footer text-center text-muted">
+          Copyrights © 2023 All Rights Reserved By Hyippro        </footer>
+
+  </div>
+</div>
+
+
+
+<%- include('../partials/admin/scripts') %>
+
+
+
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

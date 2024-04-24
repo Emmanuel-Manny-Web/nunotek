@@ -1,0 +1,261 @@
+<html lang="en">
+    <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+    <%- include('../partials/admin/header') %>
+
+    <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">    User List</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">    User List</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+
+
+  <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+      <div class="card-body">
+
+          <div class="dropdown mb-2 text-right">
+              <button class="btn btn-sm  btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span><i class="fas fa-bars pr-2"></i> Action</span>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <button class="dropdown-item" type="button" data-toggle="modal" data-target="#all_active">Active</button>
+                  <button class="dropdown-item" type="button" data-toggle="modal" data-target="#all_inactive">Inactive</button>
+              </div>
+          </div>
+
+          <div class="table-responsive">
+              <table class="categories-show-table table table-hover table-striped table-bordered">
+                  <thead class="thead-dark">
+                  <tr>
+                      <th scope="col" class="text-center">
+                          <input type="checkbox" class="form-check-input check-all tic-check" name="check-all" id="check-all">
+                          <label for="check-all"></label>
+                      </th>
+                      <th scope="col">No.</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Account Balance</th>
+                      <th scope="col">Profit Balance</th>
+                      <th scope="col">Paid Withdrawal</th>
+                      <th scope="col">Amount Withdrawn</th>
+                      <th scope="col">Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+										<% users.forEach((user, index) => { %>
+											<tr>
+												<td class="text-center">
+													<input type="checkbox" id="chk-3087" class="form-check-input row-tic tic-check" name="check" value="3087" data-id="3087">
+													<label for="chk-3087"></label>
+												</td>
+												<td data-label="No."><%= index + 1 %></td>
+												<td data-label="Name">
+													<a href="javascript:void(0)" target="_blank">
+														<div class="d-flex no-block align-items-center">
+															<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45"></div>
+																<div class="">
+																	<h5 class="text-dark mb-0 font-16 font-weight-medium"><%= user.firstname %> <%= user.lastname %>  </h5>
+																	<% if(user.ban) { %>
+																		<div class="badge badge-pill badge-danger">Banned</div>
+																	<% } %>
+																	<% if(!user.suspend) { %>
+																		<div class="badge badge-pill badge-success">True</div>
+																	<% } else { %>
+																		<div class="badge badge-pill badge-danger">False</div>
+																	<% } %>
+																</div>
+															</div>
+													</a>
+												</td>
+												<td data-label="Email"><%= user.email %></td>
+												<td data-label="Account Balance" class="font-weight-medium">₦ <%= Number(user.wallet.amount).toLocaleString() %></td>
+												<td data-label="Profit Balance" class="font-weight-medium">₦ <%= Number(user.wallet.profit).toLocaleString() %></td>
+												<td data-label="Paid Withdrawal">
+													<%= Number(user.withdrawal.length).toLocaleString() %>
+												</td>
+												<td data-label="Amount Withdrawn" class="font-weight-medium" id="amount-withdrawn" value="<%= user.email %>"></td>
+												<td data-label="Action">
+													<div class="dropdown show">
+														<a class="dropdown-toggle p-3" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+														</a>
+														<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+															<% if(!user.suspend) { %>
+																<a class="dropdown-item" href="" id="suspend-withdrawal" value="<%= user.email %>">
+																	<i class="fas fa-ban text-danger pr-2"></i>
+																	Suspend Withdrawal
+																</a>
+															<% } else { %>
+																<a class="dropdown-item" href="" id="activate-withdrawal" value="<%= user.email %>">
+																	<i class="far fa-check-circle text-success pr-2"></i>
+																	Activate Withdrawal
+																</a>
+															<% } %>
+															<% if(!user.ban) { %>
+																<a class="dropdown-item" href="" id="ban-user" value="<%= user.email %>">
+																	<i class="fas fa-ban text-danger pr-2"></i>
+																		Ban User
+																</a>
+															<% } else { %>
+																<a class="dropdown-item" href="" id="remove-ban" value="<%= user.email %>">
+																	<i class="far fa-check-circle text-success pr-2"></i>
+																	Remove Ban
+																</a>
+															<% } %>
+														</div>
+													</div>
+												</td>
+											</tr>
+										<% }) %>
+									</tbody>
+                </table>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+
+
+<%- include('../partials/admin/scripts') %>
+
+<script>
+	function notify(status,message) {
+		iziToast[status]({
+			message: message,
+			position: "topRight"
+		});
+	}
+
+	const amountWithdrawn = document.querySelectorAll("#amount-withdrawn")
+	amountWithdrawn.forEach(async (amount) => {
+		const email = amount.getAttribute("value")
+		const res = await fetch('/admin-panel/amount-withdrawn', {
+			method: "post",
+			body: JSON.stringify({ email }),
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await res.json()
+		amount.innerHTML = "₦" + " " + Number(data.amountWithdrawn).toLocaleString()
+	})
+
+	const suspendWithdrawal = document.querySelectorAll("#suspend-withdrawal")
+	suspendWithdrawal.forEach((suspend) => {
+		suspend.addEventListener("click", async (event)  => {
+			event.preventDefault()
+			const email = suspend.getAttribute("value")
+			const res = await fetch('/admin-panel/suspend-withdrawal', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: { 'Content-Type': 'application/json' }
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+	const activateWithdrawal = document.querySelectorAll("#activate-withdrawal")
+	activateWithdrawal.forEach((activate) => {
+		activate.addEventListener("click", async (event) => {
+			event.preventDefault()
+			const email = activate.getAttribute("value")
+			const res = await fetch('/admin-panel/activate-withdrawal', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: { 'Content-Type': 'application/json' }
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+	const banUsers = document.querySelectorAll("#ban-user")
+	banUsers.forEach((ban) => {
+		ban.addEventListener("click", async (event) => {
+			event.preventDefault()
+			const email = ban.getAttribute("value")
+
+			const res = await fetch('/admin-panel/ban', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+	const removeBan = document.querySelectorAll("#remove-ban")
+	removeBan.forEach((remove) => {
+		remove.addEventListener("click", async(event) => {
+			event.preventDefault()
+
+			const email = remove.getAttribute("value")
+			const res = await fetch('/admin-panel/remove-ban', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+</script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

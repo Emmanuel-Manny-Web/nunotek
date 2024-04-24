@@ -1,0 +1,188 @@
+<html lang="en">
+    <%- include('../partials/clients/head') %>
+
+<body>
+
+<div class="wrapper">
+  <%- include('../partials/clients/sidebar') %>
+
+    <div class="main">
+        <%- include('../partials/clients/header') %>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-4 mt-5">Account Setup</h1>
+
+                <div class="row justify-content-center align-items-center">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="fw-bold text-center">Bind Account</p>
+                      <span>To enable withdrawal, you have to bind a bank account to your profile, all withdrawals will be made to the binded account.</span>
+                      <div class="mt-3">
+                        <form action="" id="bind">
+                          <label for="account_number">Account Number</label>
+                            <input type="text" class="form-control mb-3" id="account_number" name="accountnumber">
+                            <label for="bank_name">Bank Name</label>
+                            <select name="bankname" id="bank_name" class="form-control mb-3">
+                              <option value="" selected disabled>Choose Bank</option>
+                              <% banks.forEach((bank) => { %>
+                                <option value="<%= bank.code %>"><%= bank.name %></option>
+                              <% }) %>
+                            </select>
+                            <label for="account_name" hidden id="account_label">Account Name</label>
+                            <input type="text" class="form-control mb-3" id="account_name" name="accountname" readonly hidden>
+                          <div class="text-center">
+                            <button class="btn btn-block btn-primary w-100" disabled>Bind</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <% if(account) { %>
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="input-wrapper mb-3">
+                          <label for="amount" class="form-label">Account Name
+                            <span class="text-danger">*</span>
+                          </label>
+                          <input type="text" class="form-control cmn--form--control" name="sender_name" value="<%= account.accountname.toUpperCase() %>" readonly>
+                          <i class="clear-input">
+                              <ion-icon name="close-circle"></ion-icon>
+                          </i>
+                        </div>
+                        <div class="input-wrapper mb-3">
+                          <label for="amount" class="form-label">Account Number
+                            <span class="text-danger">*</span>
+                          </label>
+                          <input type="text" class="form-control cmn--form--control" name="sender_name" value="<%= account.accountnumber %>" readonly>
+                          <i class="clear-input">
+                              <ion-icon name="close-circle"></ion-icon>
+                          </i>
+                        </div>
+                        <div class="input-wrapper">
+                          <label for="amount" class="form-label">Bank Name
+                            <span class="text-danger">*</span>
+                          </label>
+                          <input type="text" class="form-control cmn--form--control" name="sender_name" value="<%= account.bankname.toUpperCase() %>" readonly>
+                          <i class="clear-input">
+                              <ion-icon name="close-circle"></ion-icon>
+                          </i>
+                        </div>
+                      </div>
+                    </div>
+                  <% } %>
+                </div>
+
+            </div>
+        </main>
+
+        <%- include('../partials/clients/footer') %>
+    </div>
+</div>
+
+<!-- bootstrap js -->
+<script src="js/jquery-3.4.1.min.js"></script>
+
+<script src="js/app.js"></script>
+
+
+<!-- <script src="https://agrofi-farm.com/assets/templates/basic//js/bootstrap-fileinput.js"></script> -->
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<%- include('../partials/clients/whatsapp') %>
+
+<style type="text/css">
+    .float{
+        position:fixed;
+        width:60px;
+        height:60px;
+        bottom:80px;
+        right:40px;
+        background-color:#0d93e9;
+        color:#FFF;
+        border-radius:50px;
+        text-align:center;
+        font-size:30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index:100;
+    }
+
+    .my-float{
+        margin-top:16px;
+    }
+</style>
+<link rel="stylesheet" href="css/izitoast.min.css">
+<script src="js/iziToast.min.js"></script>
+
+<script>
+	"use strict";
+	function notify(status,message) {
+			iziToast[status]({
+					message: message,
+					position: "topRight"
+			});
+	}
+  const button = document.querySelector("button")
+	const bindForm = document.querySelector("#bind")
+	if(bindForm) {
+		bindForm.addEventListener("submit", async (event) => {
+			event.preventDefault()
+      button.setAttribute("disabled", "disabled")
+
+			const accountname = bindForm.accountname.value
+			const accountnumber = bindForm.accountnumber.value
+			const bankname = bindForm.bankname.value
+
+      if(accountname && accountnumber && bankname) {
+        const res = await fetch('/bind-account', {
+          method: "post",
+          body: JSON.stringify({ accountname, accountnumber, bankname }),
+          headers: { 'Content-Type': 'application/json' }
+        })
+
+        const data = await res.json()
+        if(data.ok) {
+          notify("success", `${data.message}`)
+          setTimeout(() => {
+            location.assign('/withdraw')
+          }, 2000)
+        } else notify("error", `${data.error}`)
+      } else notify("error", "Fill in all fields")
+    })
+	}
+
+  const banks = document.querySelector("#bank_name")
+  banks.addEventListener("change", async (event) => {
+    event.preventDefault()
+    document.querySelector("#account_name").setAttribute("value", ``)
+
+    const accountnumber = document.getElementById("account_number").value
+    const bank = banks.value
+    button.setAttribute("disabled", "disabled")
+    const res = await fetch('/account-name', {
+      method: "post",
+      body: JSON.stringify({ account_bank: bank, account_number: accountnumber }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const { data } = await res.json()
+    if(data.status === 'success') {
+      document.querySelector("#account_label").removeAttribute("hidden")
+      document.querySelector("#account_name").removeAttribute("hidden")
+      document.querySelector("#account_name").setAttribute("value", `${data.data.account_name}`)
+      button.removeAttribute("disabled")
+    } else {
+      document.querySelector("#account_label").removeAttribute("hidden")
+      document.querySelector("#account_name").removeAttribute("hidden")
+      document.querySelector("#account_name").setAttribute("value", `Account number and bank don't match`)
+    }
+  })
+		
+</script>
+
+</body></html>

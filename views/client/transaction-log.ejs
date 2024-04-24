@@ -1,0 +1,220 @@
+<html lang="en">
+<%- include('../partials/clients/head') %>
+
+  <body>
+
+
+    <div class="wrapper">
+      <%- include('../partials/clients/sidebar') %>
+
+        <div class="main">
+          <%- include('../partials/clients/header') %>
+
+            <main class="content">
+              <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-4 mt-5">Transaction Log</h1>
+
+                <div class="row">
+                  <div class="col-12">
+
+
+
+
+
+
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="card" style="font-size: 10px">
+                          <div class="card-body">
+                            <div class="table-responsive">
+                              <table class="table datatable-pagination">
+                                <thead>
+                                  <tr>
+                                    <th>Info</th>
+                                    <th>Date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% notifications.forEach((transaction, index)=> { %>
+                                    <tr>
+                                      <td data-label="Detail">
+                                        <% if(transaction.charge) { %>
+                                          Withdrawal
+                                          <% } else if(transaction.narration) { %>
+                                            Deposit
+                                            <% } else if(transaction.message) { %>
+                                              <%= transaction.message %>
+                                                <% } else { %>
+                                                  Purchased <%= transaction.product.toUpperCase() %> investment plan
+                                                    <% } %>
+                                      </td>
+                                      <td data-label="Transacted">
+                                        <%= transaction.createdAt.toString().slice(0, 21) %>
+                                      </td>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+
+
+                    <div id="approveModal" class="modal fade" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              <i class="las la-times"></i>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="list-group">
+                              <li class="list-group-item dark-bg">Amount : <span class="withdraw-amount "></span></li>
+                              <li class="list-group-item dark-bg">Charge : <span class="withdraw-charge "></span></li>
+                              <li class="list-group-item dark-bg">After Charge : <span
+                                  class="withdraw-after_charge"></span></li>
+                              <li class="list-group-item dark-bg">Conversion Rate : <span class="withdraw-rate"></span>
+                              </li>
+                              <li class="list-group-item dark-bg">Payable Amount : <span
+                                  class="withdraw-payable"></span></li>
+                            </ul>
+                            <ul class="list-group withdraw-detail mt-1">
+                            </ul>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div id="detailModal" class="modal fade" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                              <i class="las la-times"></i>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="withdraw-detail"></div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+            </main>
+
+            <%- include('../partials/clients/footer') %>
+        </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+
+    <script src="js/app.js"></script>
+
+
+
+    <script>
+      (function ($) {
+        "use strict";
+        $('.approveBtn').on('click', function () {
+          var modal = $('#approveModal');
+          modal.find('.withdraw-amount').text($(this).data('amount'));
+          modal.find('.withdraw-charge').text($(this).data('charge'));
+          modal.find('.withdraw-after_charge').text($(this).data('after_charge'));
+          modal.find('.withdraw-rate').text($(this).data('rate'));
+          modal.find('.withdraw-payable').text($(this).data('payable'));
+          var list = [];
+          var details = Object.entries($(this).data('info'));
+
+          var ImgPath = "https://agrofi-farm.com/assets/images/verify/deposit/";
+          var singleInfo = '';
+          for (var i = 0; i < details.length; i++) {
+            if (details[i][1].type == 'file') {
+              singleInfo += `<li class="list-group-item">
+                                            <span class="font-weight-bold "> ${details[i][0].replaceAll('_', " ")} </span> : <img src="${ImgPath}/${details[i][1].field_name}" alt="Image" class="w-100">
+                                        </li>`;
+            } else {
+              singleInfo += `<li class="list-group-item">
+                                            <span class="font-weight-bold "> ${details[i][0].replaceAll('_', " ")} </span> : <span class="font-weight-bold ml-3">${details[i][1].field_name}</span>
+                                        </li>`;
+            }
+          }
+
+          if (singleInfo) {
+            modal.find('.withdraw-detail').html(`<br><strong class="my-3">Payment Information</strong>  ${singleInfo}`);
+          } else {
+            modal.find('.withdraw-detail').html(`${singleInfo}`);
+          }
+          modal.modal('show');
+        });
+
+        $('.detailBtn').on('click', function () {
+          var modal = $('#detailModal');
+          var feedback = $(this).data('admin_feedback');
+          modal.find('.withdraw-detail').html(`<p> ${feedback} </p>`);
+          modal.modal('show');
+        });
+      })(jQuery);
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%- include('../partials/clients/whatsapp') %>
+
+      <style type="text/css">
+        .float {
+          position: fixed;
+          width: 60px;
+          height: 60px;
+          bottom: 80px;
+          right: 40px;
+          background-color: #0d93e9;
+          color: #FFF;
+          border-radius: 50px;
+          text-align: center;
+          font-size: 30px;
+          box-shadow: 2px 2px 3px #999;
+          z-index: 100;
+        }
+
+        .my-float {
+          margin-top: 16px;
+        }
+      </style>
+      <link rel="stylesheet" href="css/izitoast.min.css">
+      <script src="js/iziToast.min.js"></script>
+
+      <script>
+        "use strict";
+        function notify(status, message) {
+          iziToast[status]({
+            message: message,
+            position: "topRight"
+          });
+        }
+      </script>
+
+  </body>
+
+</html>

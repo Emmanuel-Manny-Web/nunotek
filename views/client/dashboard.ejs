@@ -1,0 +1,407 @@
+<html lang="en" class="">
+<%- include('../partials/clients/head') %>
+
+  <body class="" style="padding-right: 0px;">
+    <div class="wrapper">
+      <%- include('../partials/clients/sidebar') %>
+
+        <div class="main">
+          <%- include('../partials/clients/header') %>
+
+            <main class="content">
+              <div class="container-fluid p-0">
+
+                <h1 class="h3 mt-5 mb-4">Dashboard</h1>
+
+                <div class="row">
+                  <div class="col-12">
+
+
+
+                    <style type="text/css">
+                      .news-block {
+                        margin: 10px auto;
+                        font-weight: bolder;
+                      }
+
+                      .new-title {
+                        padding: 10px;
+                        color: #26ec72;
+                        background-color: #0d0d0d;
+                        text-align: center;
+
+                      }
+
+                      .news-body {
+                        padding: 9px;
+                        background-color: #26ec72;
+                        color: #0d0d0d;
+                      }
+
+                      .news-body a {
+                        color: #fff !important;
+                      }
+                    </style>
+
+
+                    <link rel="stylesheet"
+                      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+
+
+
+                    <div class="news-block">
+                      <div class="row">
+
+                        <div class="col-12">
+                          <div class="news-body">
+                            <marquee direction="left">
+                              K***********2 withdraw 3,116 | J*****4 withdraw 6,413 | B**************2 withdraw 2,138 |
+                              E*******1 withdraw 7,505 | D****m withdraw 1,995 | N********s withdraw 5,985 | A****i
+                              withdraw 3,491 | O******e withdraw 2,921 | B********5 withdraw 9,500 | I*****5 withdraw
+                              2,090 </marquee>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div>
+                      <h5>Quick Links</h5>
+
+                      <div class="btn-group mb-4 mt-3">
+                        <a href="/funding" class="btn btn-primary">Fund Account</a>
+                        <a href="/withdraw" class="btn btn-success">Withdraw Funds</a>
+                        <a href="/investment-log" class="btn btn-warning">My Products</a>
+                        <a href="/bind-account" class="btn btn-info">Bind Account</a>
+                      </div>
+                    </div>
+
+
+                    <h5>Our Investment Products</h5>
+
+
+                    <div class="row">
+
+                      <% products.forEach((product)=> { %>
+                        <div class="col-sm-6">
+
+                          <div class="card animate__animated animate__backInUp">
+
+                            <div class="card-header">
+                              <h5 class="card-title mb-0 text-dark">
+                                <%= product.name %>
+                              </h5>
+                            </div>
+                            <div class="card-body">
+
+
+                              <div class="card-img" align="center"
+                                style="width: 150px; height: 150px; line-height: 150px; border: solid 1px #4CA7B9; border-radius: 50%; overflow: hidden; margin-left: auto; margin-right: auto;">
+
+                                <img src="images/<%= product.image %>" alt="" width="150" class="" height="150">
+
+                              </div>
+                              <div class="mt-4">
+                                <ul class="list-unstyled">
+                                  <li class="d-flex justify-content-between">
+                                    <span>Deposit</span>
+                                    <span>₦ <%= Number(product.deposit).toLocaleString() %></span>
+                                  </li>
+
+                                  <li class="d-flex justify-content-between"><span>Daily income</span>
+                                    <span>₦ <%= Number(product.dailyIncome).toLocaleString() %></span>
+                                  </li>
+
+                                  <li class="d-flex justify-content-between"><span>Run Time</span> <span>
+                                      <%= Number(product.runtime).toLocaleString() %>
+                                        days
+                                    </span></li>
+
+                                  <li class="d-flex justify-content-between"><span>Total income</span>
+                                    <span>₦ <%= Number(product.totalIncome).toLocaleString() %></span>
+                                  </li>
+
+
+                                </ul>
+                              </div>
+
+                              <div class="mt-3 mb-3">
+                                <form action="" class="auth-form" method="post">
+                                  <input type="hidden" name="id" value="<%= product.name %>">
+
+                                  <button type="submit" class="btn btn-primary w-100">Invest Now!</button>
+                                </form>
+                              </div>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+                        <% }) %>
+
+
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-xl-6 col-xxl-5 d-flex">
+                        <div class="w-100">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col mt-0">
+                                      <h5 class="card-title">Current Balance</h5>
+                                    </div>
+
+                                    <div class="col-auto">
+                                      <div class="stat text-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                          stroke-linecap="round" stroke-linejoin="round"
+                                          class="feather feather-truck align-middle">
+                                          <rect x="1" y="3" width="15" height="13"></rect>
+                                          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                        </svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <h1 class="mt-1 mb-3">₦ <%= Number(wallet.amount).toLocaleString() %>
+                                  </h1>
+                                  <div class="mb-0">
+
+                                    <span class="text-muted">Available balance!!!</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col mt-0">
+                                      <h5 class="card-title">Withdrawable Funds</h5>
+                                    </div>
+
+                                    <div class="col-auto">
+                                      <div class="stat text-primary">
+                                        ₦
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <h1 class="mt-1 mb-3">₦ <%= Number(wallet.profit).toLocaleString() %>
+                                  </h1>
+                                  <div class="mb-0">
+
+                                    <span class="text-muted">Withdrawal - Deposit</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="card">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col mt-0">
+                                      <h5 class="card-title">Products</h5>
+                                    </div>
+
+                                    <div class="col-auto">
+                                      <div class="stat text-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                          stroke-linecap="round" stroke-linejoin="round"
+                                          class="feather feather-shopping-cart align-middle">
+                                          <circle cx="9" cy="21" r="1"></circle>
+                                          <circle cx="20" cy="21" r="1"></circle>
+                                          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6">
+                                          </path>
+                                        </svg>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <h1 class="mt-1 mb-3">
+                                    <%= Number(investments.length).toLocaleString() %>
+                                  </h1>
+                                  <div class="mb-0">
+
+                                    <span class="text-muted">No of Products Hired</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+              </div>
+            </main>
+
+            <%- include('../partials/clients/footer') %>
+        </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+
+    <script src="js/app.js"></script>
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+      integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+          items: 1,
+          loop: true,
+          margin: 10,
+          autoplay: true,
+          autoplayTimeout: 5000,
+          autoplayHoverPause: true,
+          nav: false,
+          dots: false
+        });
+
+
+        $('.nonloop').owlCarousel({
+          center: true,
+          items: 1,
+          loop: true,
+          margin: 10,
+          autoplay: true,
+          autoplayTimeout: 5000,
+          autoplayHoverPause: true,
+          nav: false,
+          dots: false
+        });
+      });
+
+
+
+      /*document.addEventListener( 'DOMContentLoaded', function() {
+          var splide = new Splide( '.splide', {
+              type   : 'loop',
+              perPage: 1,
+              direction: 'ttb',
+              autoplay: true,
+              heightRatio: 1
+          } );
+          splide.mount();
+      } );*/
+    </script>
+
+
+
+
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script type="text/javascript">
+
+      let msg = `Nunotek is the online platform for stock purchase and investment in various companies. For an investor looking for returns, Nunotek is the smart way to grow your money and your profits. Join Nunotek today and be part of the future of stock buying.`
+      //Swal.fire({position:"top",showConfirmButton:true, html: message})
+      Swal.fire({
+        //icon: 'error',
+        title: 'Welcome',
+        //confirmButtonColor: '#E13DB3',
+        confirmButtonText: 'Close',
+        //text: 'Something went wrong!',
+        // footer: '<a href="https://t.me/+bwjyeHE2C1w1YjFk">Join Our Community</a>',
+        html: msg
+      })
+    </script> -->
+
+    <script>
+      (function ($) {
+        "use strict";
+        $('.planModal').on('click', function () {
+          var modal = $('#planModal');
+          modal.find('input[name=id]').val($(this).data('id'));
+          modal.find($('#planModalLabel').text($(this).data('name')));
+        });
+        $('.copyBoard').click(function () {
+          "use strict";
+          var copyText = document.getElementById("referralURL");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          /*For mobile devices*/
+          document.execCommand("copy");
+          iziToast.success({ message: "Copied: " + copyText.value, position: "topRight" });
+        });
+      })(jQuery);
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <%- include('../partials/clients/whatsapp') %>
+
+      <style type="text/css">
+        .float {
+          position: fixed;
+          width: 60px;
+          height: 60px;
+          bottom: 80px;
+          right: 40px;
+          background-color: #0d93e9;
+          color: #FFF;
+          border-radius: 50px;
+          text-align: center;
+          font-size: 30px;
+          box-shadow: 2px 2px 3px #999;
+          z-index: 100;
+        }
+
+        .my-float {
+          margin-top: 16px;
+        }
+      </style>
+      <link rel="stylesheet" href="css/izitoast.min.css">
+      <script src="js/iziToast.min.js"></script>
+
+      <script>
+        "use strict";
+        function notify(status, message) {
+          iziToast[status]({
+            message: message,
+            position: "topRight"
+          });
+        }
+        const forms = document.querySelectorAll("form")
+        forms.forEach((form) => {
+          form.addEventListener("submit", async (event) => {
+            event.preventDefault()
+
+            const product = form.id.value
+            const res = await fetch('/investment', {
+              method: 'post',
+              body: JSON.stringify({ product }),
+              headers: { 'Content-Type': 'application/json' }
+            })
+
+            const data = await res.json()
+            if (data.ok) location.assign('/investment-log')
+            else notify("error", `${data.error}`)
+          })
+        })
+      </script>
+
+  </body>
+
+</html>

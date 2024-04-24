@@ -1,0 +1,660 @@
+<html lang="en">
+    <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Dashboard</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">Dashboard</li>
+                          </ol>
+                      </nav>
+                  </div>
+              	</div>
+          		</div>
+      			</div>
+
+			<div class="container-fluid">
+      <div class="row admin-fa_icon fa-2x">
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= users %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">
+                                Total Users
+															</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= joined %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today Join User</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(totalUserFund).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total User Fund</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-wallet"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(totalProfitFund).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Profit Fund</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-money-bill"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">10</h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Plans</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-clipboard-list"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= Number(totalInvestment).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Investment</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-seedling"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= Number(activeInvestment).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Running Investment</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fab fa-pagelines"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= Number(completeInvestment).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Complete Investment</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-calendar-check"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= Number(todayInvest).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today Invest</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-inbox"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(todayInvestmentAmount).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today's Investment</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-coins"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+					<div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+						<div class="card shadow border-right">
+								<div class="card-body">
+										<div class="d-flex d-lg-flex d-md-block align-items-center">
+												<div>
+														<div class="d-inline-flex align-items-center">
+																<h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(todayInvestmentEarning).toLocaleString() %></h2>
+														</div>
+														<h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today's Investment Earnings</h6>
+												</div>
+												<div class="ml-auto mt-md-3 mt-lg-0">
+														<span class="opacity-7 text-muted"><i class="fas fa-coins"></i></span>
+												</div>
+										</div>
+								</div>
+						</div>
+				</div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(monthInvestmentAmount).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">This Month Invest</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-coins"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(totalInvestmentAmount).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Invest</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-money-bill"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(todayDeposit).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today's Deposit</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-hand-holding-usd"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+					<div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+						<div class="card shadow border-right">
+								<div class="card-body">
+										<div class="d-flex d-lg-flex d-md-block align-items-center">
+												<div>
+														<div class="d-inline-flex align-items-center">
+																<h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(monthDeposit).toLocaleString() %></h2>
+														</div>
+														<h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">This Month Deposit</h6>
+												</div>
+												<div class="ml-auto mt-md-3 mt-lg-0">
+														<span class="opacity-7 text-muted"><i class="fa fa-hand-holding-usd"></i></span>
+												</div>
+										</div>
+								</div>
+						</div>
+				</div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(totalDeposit).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Deposit</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-hand-holding-usd"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row admin-fa_icon fa-2x">
+          <div class="col-md-12">
+              <h4 class="card-title">Payout Statistics</h4>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium"><%= Number(pendingRequest).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Pending Request</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-circle-notch"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(todayPayout).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Today's Payout</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-hand-holding-usd"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(monthPayout).toLocaleString() %></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">This Month Payout</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-money-bill-wave"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+					<div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+						<div class="card shadow border-right">
+								<div class="card-body">
+										<div class="d-flex d-lg-flex d-md-block align-items-center">
+												<div>
+														<div class="d-inline-flex align-items-center">
+																<h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(totalPayout).toLocaleString() %></h2></h2>
+														</div>
+														<h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Payout</h6>
+												</div>
+												<div class="ml-auto mt-md-3 mt-lg-0">
+														<span class="opacity-7 text-muted"><i class="fas fa-receipt"></i></span>
+												</div>
+										</div>
+								</div>
+						</div>
+				</div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">₦ <%= Number(monthCharge).toLocaleString() %></h2></h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">This Month Charge</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fas fa-receipt"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+      <!-- <div class="row admin-fa_icon fa-2x">
+          <div class="col-md-12">
+              <h4 class="card-title">Tickets</h4>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">1</h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Closed Ticket</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-times-circle"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">1</h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Replied Ticket</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-inbox"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">0</h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Answered Ticket</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-check"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+              <div class="card shadow border-right">
+                  <div class="card-body">
+                      <div class="d-flex d-lg-flex d-md-block align-items-center">
+                          <div>
+                              <div class="d-inline-flex align-items-center">
+                                  <h2 class="text-dark mb-1 font-weight-medium">1</h2>
+                              </div>
+                              <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Pending Ticket</h6>
+                          </div>
+                          <div class="ml-auto mt-md-3 mt-lg-0">
+                              <span class="opacity-7 text-muted"><i class="fa fa-spinner"></i></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card shadow">
+						<div class="card-body">
+							<h4 class="card-title">Latest User</h4>
+								<div class="table-responsive">
+									<table class="categories-show-table table table-hover table-striped table-bordered">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">Name</th>
+												<th scope="col">Email</th>
+												<th scope="col">Balance</th>
+												<th scope="col">Profit Balance</th>
+												<th scope="col">Withdraw Status</th>
+												<th scope="col">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<% latestUsers.forEach((user, index) => { %>
+												<tr>
+													<td data-label="Name">
+														<a href="" target="_blank">
+															<div class="d-flex no-block align-items-center">
+																<div class="">
+																	<h5 class="text-dark mb-0 font-13 font-weight-medium ml-2"><%= user.firstname %> <%= user.lastname %> </h5>
+																</div>
+															</div>
+														</a>
+													</td>
+													<td data-label="Email"><%= user.email %></td>
+													<td data-label="Balance" class="font-weight-medium">₦<%= Number(user.wallet[0].amount).toLocaleString() %></td>
+													<td data-label="Profit Balance" class="font-weight-medium">₦<%= Number(user.wallet[0].profit).toLocaleString() %></td>
+													<td data-label="Withdraw Status">
+													<% if(!user.suspend) { %>
+														<span class="badge badge-pill badge-success">True</span>
+													<% } else { %>
+														<span class="badge badge-pill badge-danger">False</span>
+													<% } %>
+													</td>
+													<td data-label="Action">
+														<div class="dropdown show">
+															<a class="dropdown-toggle p-3" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+																<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+															</a>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																<% if(!user.suspend) { %>
+																	<a class="dropdown-item" href="" id="suspend-withdrawal" value="<%= user.email %>">
+																		<i class="fas fa-ban text-danger pr-2"></i>
+																		Suspend Withdrawal
+																	</a>
+																<% } else { %>
+																	<a class="dropdown-item" href="" id="activate-withdrawal" value="<%= user.email %>">
+																		<i class="far fa-check-circle text-success pr-2"></i>
+																		Activate Withdrawal
+																	</a>
+																<% } %>
+																<!-- <a class="dropdown-item loginAccount" type="button" data-toggle="modal" data-target="#signIn" data-route="">
+																	<i class="fas fa-sign-in-alt text-success pr-2" aria-hidden="true"></i> Login as User
+																</a> -->
+															</div>
+														</div>
+													</td>
+												</tr>
+											<% }) %>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>    
+  		</div>
+
+
+
+
+  
+  <!-- Admin Login as a User Modal -->
+  <!-- <div class="modal fade" id="signIn">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <form method="post" action="" class="loginAccountAction" enctype="multipart/form-data">
+              <input type="hidden" name="_token" value="5JvryEuPAPZLpm7SN0mG8H08tmqsFl2CUpWOi4YU">
+                  <div class="modal-header modal-colored-header bg-primary">
+                      <h4 class="modal-title">Sing In Confirmation</h4>
+                      <button type="button" class="close" data-dismiss="modal">×</button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Are you sure to sign in this account?</p>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-dismiss="modal"><span>Close</span>
+                      </button>
+                      <button type="submit" class=" btn btn-primary "><span>Yes</span>
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div> -->
+
+
+  </div>
+</div>
+
+<%- include('../partials/admin/scripts') %>
+
+<script>
+	function notify(status,message) {
+		iziToast[status]({
+			message: message,
+			position: "topRight"
+		});
+	}
+
+	const suspendWithdrawal = document.querySelectorAll("#suspend-withdrawal")
+	suspendWithdrawal.forEach((suspend) => {
+		suspend.addEventListener("click", async (event)  => {
+			event.preventDefault()
+			const email = suspend.getAttribute("value")
+			const res = await fetch('/admin-panel/suspend-withdrawal', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: { 'Content-Type': 'application/json' }
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+	const activateWithdrawal = document.querySelectorAll("#activate-withdrawal")
+	activateWithdrawal.forEach((activate) => {
+		activate.addEventListener("click", async (event) => {
+			event.preventDefault()
+			const email = activate.getAttribute("value")
+			const res = await fetch('/admin-panel/activate-withdrawal', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: { 'Content-Type': 'application/json' }
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				setTimeout(() => {
+					location.reload()
+				}, 5000)
+			} else {
+				notify("error", `${data.error}`)
+			}
+		})
+	})
+</script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

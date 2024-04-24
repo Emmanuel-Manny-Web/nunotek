@@ -1,0 +1,240 @@
+<html lang="en">
+    <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">    Payout Request</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">    Payout Request</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+
+  <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="categories-show-table table table-hover table-striped table-bordered">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">Date</th>
+							<th scope="col">Name</th>
+							<th scope="col">Method</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Charge</th>
+							<th scope="col">Net Amount</th>
+							<th scope="col">Status</th>
+							<th scope="col">More</th>
+						</tr>
+						</thead>
+						<tbody>
+							<% withdrawals.forEach((withdrawal) => { %>
+								<tr>
+									<td data-label="Date"> <%= withdrawal.createdAt.toString().slice(0, 21) %></td>
+									<td data-label="Name">
+										<a href="javascript:void(0)" target="_blank">
+											<div class="d-flex no-block align-items-center">
+												<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
+												</div>
+												<div class="">
+													<h5 class="text-dark mb-0 font-16 font-weight-medium">
+														<%= withdrawal.user.firstname %> <%= withdrawal.user.lastname %>
+													</h5>
+													<span class="text-muted font-14"><%= withdrawal.user.email %></span>
+													<% if(withdrawal.user.suspend) { %>
+														<p class="text-danger font-14 font-weight-medium">suspended</p>
+													<% } %>
+												</div>
+											</div>
+										</a>
+									</td>
+									<td data-label="Method">Bank Transfer</td>
+									<td data-label="Amount" class="font-weight-bold">₦ <%= Number(withdrawal.amount).toLocaleString() %></td>
+									<td data-label="Charge" class="text-success">₦ <%= Number(withdrawal.charge).toLocaleString() %></td>
+									<td data-label="Net Amount" class="font-weight-bold">₦ <%= Number(withdrawal.amount + withdrawal.charge).toLocaleString() %></td>
+	
+									<td data-label="Status">
+										<% if(withdrawal.status === "Pending") { %>
+											<span class="badge badge-warning"><%= withdrawal.status %></span>
+										<% } else { %>
+											<span class="badge badge-success"><%= withdrawal.status %></span>
+										<% } %>
+									</td>
+									<td data-label="More">
+										<button type="button" class="btn btn-primary btn-icon edit_button" data-toggle="modal" data-target="#myModal" data-id="<%= withdrawal._id %>" data-status="<%= withdrawal.status %>">
+											<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 192 512">
+												<path d="M96 184c39.8 0 72 32.2 72 72s-32.2 72-72 72-72-32.2-72-72 32.2-72 72-72zM24 80c0 39.8 32.2 72 72 72s72-32.2 72-72S135.8 8 96 8 24 40.2 24 80zm0 352c0 39.8 32.2 72 72 72s72-32.2 72-72-32.2-72-72-72-72 32.2-72 72z"/>
+											</svg>
+										</button>
+									</td>
+								</tr>
+							<% }) %>
+						</tbody>
+				</table>
+			</div>
+		</div>
+  </div>
+
+
+
+
+  <!-- Modal for Edit button -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content ">
+						<div class="modal-header modal-colored-header bg-primary">
+							<h4 class="modal-title" id="myModalLabel">Payout Information</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						</div>
+						<form role="form" class="actionRoute" action="">
+							<div class="modal-body">
+								<ul class="list-group withdraw-detail">
+								</ul>
+								<div class="form-group addForm">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<input type="text" hidden id="status-input">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+								<button type="submit" class="btn btn-success" name="status" id="pay">Pay</button>
+								<button type="submit" class="btn btn-primary" name="status" id="approve">Approve</button>
+								<button type="submit" class="btn btn-danger" name="status" id="reject">Reject</button>
+							</div>
+						</form>
+					</div>
+      	</div>
+  </div>
+	</div>
+</div>
+
+<%- include('../partials/admin/scripts') %>
+
+<script>
+	function notify(status,message) {
+		iziToast[status]({
+			message: message,
+			position: "topRight"
+		});
+	}
+
+	const pay = document.getElementById("pay")
+	const approve = document.getElementById("approve")
+	const reject = document.getElementById("reject")
+	const closeBtn = document.getElementById("close")
+
+	var id
+
+	const buttons = document.querySelectorAll(".edit_button")
+	buttons.forEach((button) => {
+		button.addEventListener("click", (event) => {
+			event.preventDefault()
+			id = button.getAttribute("data-id")
+			var status = button.getAttribute("data-status")
+
+			status === "Approved" ? approve.setAttribute("hidden", "hidden") : approve.removeAttribute("hidden")
+		})
+	})
+
+	pay.addEventListener("click", async (event) => {
+		event.preventDefault()
+
+		pay.setAttribute("disabled", "disabled")
+		approve.setAttribute("disabled", "disabled")
+		reject.setAttribute("disabled", "disabled")
+		closeBtn.setAttribute("disabled", "disabled")
+
+		const res = await fetch('/admin-panel/pay-withdrawal', {
+			method: "post",
+			body: JSON.stringify({ id }),
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await res.json()
+		if(data) {
+			pay.removeAttribute("disabled")
+			approve.removeAttribute("disabled")
+			reject.removeAttribute("disabled")
+			closeBtn.removeAttribute("disabled")
+		}
+
+		if(data.ok) {
+			closeBtn.click()
+			notify("success", `${data.message}`)
+			setTimeout(() => {
+				location.reload()
+			}, 5000)
+		} else {
+			closeBtn.click()
+			notify("error", `${data.error}`)
+			setTimeout(() => {
+				location.reload()
+			},3000)
+		}
+	})
+
+	reject.addEventListener("click", async (event) => {
+		event.preventDefault()
+		const res = await fetch('/admin-panel/reject-withdrawal', {
+			method: "post",
+			body: JSON.stringify({ id }),
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await res.json()
+		if(data.ok) {
+			closeBtn.click()
+			notify("success", `${data.message}`)
+			setTimeout(() => {
+				location.reload()
+			}, 5000)
+		} else {
+			closeBtn.click()
+			notify("error", `${data.error}`)
+		}
+	})
+
+	approve.addEventListener("click", async (event) => {
+		event.preventDefault()
+		const res = await fetch('/admin-panel/approve-withdrawal', {
+			method: "post",
+			body: JSON.stringify({ id }),
+			headers: { 'Content-Type': 'application/json' }
+		})
+		const data = await res.json()
+		if(data.ok) {
+			closeBtn.click()
+			notify("success", `${data.message}`)
+			setTimeout(() => {
+				location.reload()
+			}, 5000)
+		} else {
+			closeBtn.click()
+			notify("error", `${data.error}`)
+		}
+	})
+</script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

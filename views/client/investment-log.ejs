@@ -1,0 +1,213 @@
+<html lang="en">
+	<%- include('../partials/clients/head') %>
+
+<body>
+
+
+<div class="wrapper">
+    <%- include('../partials/clients/sidebar') %>
+
+    <div class="main">
+        <%- include('../partials/clients/header') %>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                <h1 class="h3 mb-4 mt-5">My Investments</h1>
+
+                <div class="row">
+                    <div class="col-12">
+                        
+
+
+                        
+
+    <script>
+        "use strict"
+
+        function createCountDown(elementId, sec) {
+            var tms = sec;
+            var x = setInterval(function () {
+                var distance = tms * 1000;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById(elementId).innerHTML = days + "d: " + hours + "h " + minutes + "m " + seconds + "s ";
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(elementId).innerHTML = "COMPLETE";
+                }
+                tms--;
+            }, 1000);
+        }
+    </script>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        
+                    </div>
+
+                    <div class="card-body">
+
+
+                        <div class="table-responsive">
+
+
+                            <table class="table datatable-pagination">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Amount</th>
+                                    <th>Profit</th>
+                                    <th>Return</th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+																	<% investments.forEach((investment, index) => { %>
+																		<tr>
+																			<td><%= investment.product.toUpperCase() %></td>
+																			<td><%= Number(investment.deposit).toLocaleString() %></td>
+																			<td><%= Number(investment.dailyIncome).toLocaleString() %></td>
+																			<td id="profit" value="<%= investment.start %>"></td>
+																			<% if(investment.active) { %>
+																				<td class="text-warning fw-bold">In progress</td>
+																			<% } else { %>
+																				<td class="text-success">Completed</td>
+																			<% } %>
+																			<td><%= investment.start.toDateString() %></td>
+																			<td><%= investment.end.toDateString() %></td>
+																		</tr>
+																	<% }) %>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row text-muted">
+                    <div class="col-6 text-start">
+                        <p class="mb-0">
+                            <a class="text-muted" href="#"><strong>Nunotek</strong></a>©
+                        </p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a class="text-muted" href="https://t.me/+bwjyeHE2C1w1YjFk" target="_blank">Support</a>
+                            </li>
+
+                            <!-- <li class="list-inline-item">
+                                <a class="text-muted" href="#" target="_blank">Download App</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- bootstrap js -->
+<script src="js/jquery-3.4.1.min.js"></script>
+
+<script src="js/app.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<%- include('../partials/clients/whatsapp') %>
+
+<style type="text/css">
+    .float{
+        position:fixed;
+        width:60px;
+        height:60px;
+        bottom:80px;
+        right:40px;
+        background-color:#0d93e9;
+        color:#FFF;
+        border-radius:50px;
+        text-align:center;
+        font-size:30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index:100;
+    }
+
+    .my-float{
+        margin-top:16px;
+    }
+</style>
+<link rel="stylesheet" href="css/iziToast.min.css">
+<script src="js/iziToast.min.js"></script>
+
+<script>
+	"use strict";
+	function notify(status,message) {
+		iziToast[status]({
+			message: message,
+			position: "topRight"
+		});
+	}
+	
+	const profits = document.querySelectorAll("#profit")
+	profits.forEach((profit, index) => {
+		var date = profit.getAttribute("value")
+		var warning = document.querySelectorAll(".text-warning")[index]
+		if(warning.innerHTML === 'In progress') {
+			var start = new Date()
+			var countdown = new Date(date)
+			while(start > countdown) {
+                countdown = new Date(countdown.setDate(countdown.getDate() + 1))
+			}
+			var time = countdown.getTime()
+			setInterval(() => {
+				var now = new Date().getTime()
+				var distance = time - now
+
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+				hours = hours.toString().length > 1 ? hours : "0" + hours
+				minutes = minutes.toString().length > 1 ? minutes : "0" + minutes
+				seconds = seconds.toString().length > 1 ? seconds : "0" + seconds
+
+				var timeLeft = hours + ":" + minutes + ":" + seconds
+				profit.innerHTML = timeLeft
+			}, 1000)
+		} else profit.innerHTML = "NULL"
+	})
+</script>
+
+</body></html>

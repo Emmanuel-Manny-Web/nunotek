@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpeg">
+    <title>Admin Login | Hyippro</title>
+    <link href="/admin/css/style.min.css" rel="stylesheet">
+    </head>
+<body>
+        <div class="main-wrapper">
+            <div class="preloader" style="display: none;">
+                <div class="lds-ripple">
+                    <div class="lds-pos"></div>
+                    <div class="lds-pos"></div>
+                </div>
+            </div>
+
+            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background:url(/admin/images/auth-bg.jpg) no-repeat center center;">
+                <div class="auth-box row">
+                    <div class="col-lg-6 col-md-5 modal-bg-img" style="background-image: url(/admin/images/theme.jpg);">
+                    </div>
+
+                    <div class="col-lg-6 col-md-7 bg-white">
+                            <div class="p-3">
+        <div class="text-center">
+            <img src="/images/favicon.jpeg" width="50" height="50" style="border-radius: 50px;" alt="wrapkit">
+        </div>
+        <h2 class="mt-3 text-center">Admin Login</h2>
+
+        <form method="POST" action="" aria-label="Login">
+					<div class="row mb-5">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="text-dark" for="email">Username</label>
+									<input id="username" type="text" class="form-control" name="username" autocomplete="off" autofocus="" required>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="text-dark" for="pwd">Password</label>
+									<input id="password" type="password" class="form-control " name="password" required>
+								</div>
+							</div>
+							<div class="col-lg-12 text-center">
+								<button type="submit" class="btn btn-block btn-dark">Sign In</button>
+							</div>
+            </div>
+        </form>
+    	</div>
+		</div>
+	</div>
+</div>
+        </div>
+
+
+
+    <script src="/admin/js/jquery.min.js"></script>
+    <script src="/admin/js/popper.min.js"></script>
+    <script src="/admin/js/bootstrap.min.js"></script>
+
+    <script src="/admin/js/notiflix-aio-2.7.0.min.js"></script>
+
+		<link rel="stylesheet" href="/css/izitoast.min.css">
+		<script src="/js/iziToast.min.js"></script>
+    
+    <script>
+			function notify(status,message) {
+				iziToast[status]({
+					message: message,
+					position: "topRight"
+				});
+			}
+
+			const form = document.querySelector("form")
+			form.addEventListener("submit", async (event) => {
+				event.preventDefault()
+
+				const username = form.username.value
+				const password= form.password.value
+
+				const res = await fetch('/admin-panel/login', {
+					method: "post",
+					body: JSON.stringify({ username, password }),
+					headers: { 'Content-Type': 'application/json' }
+				})
+				const data = await res.json()
+				if(data.ok) {
+					location.assign('/admin-panel/dashboard')
+				} else {
+					notify("error", `${data.error}`)
+				}
+			})
+		</script>
+
+
+
+
+</body></html>

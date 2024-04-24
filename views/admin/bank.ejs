@@ -1,0 +1,180 @@
+<html lang="en">
+  <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1118.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Deposit Bank</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">Deposit Bank Details</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+      
+  <div class="row">
+      <div class="col-md-7">
+          <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+              <div class="card-body">
+                  <form method="post" action="" class="needs-validation base-form">
+                    <div class="row my-3">
+                          <div class="form-group col-12">
+                            <label class="font-weight-bold">Account Number</label>
+                            <input type="number" name="accountnumber" required="required" class="form-control " id="account_number">
+                          </div>
+                          <div class="form-group col-12">
+                            <label class="font-weight-bold">Bank Name</label>
+                            <select name="bank" class="form-control bank_name">
+                              <option selected disabled>Choose Bank</option>
+                              <% banks.forEach((bank) => { %>
+                                <option value="<%= bank.code %>"><%= bank.name %></option>
+                              <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-group col-12" hidden id="hidden_div">
+                          <label class="font-weight-bold">Account Name</label>
+                          <input type="text" name="accountname" id="account_name" required class="form-control ">
+                        </div>
+                      </div>
+                      <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-block mt-3" id="save" disabled><span><i class="fas fa-save pr-2"></i> Save Changes</span></button>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <% if(account) { %>
+        <div class="col-md-5">
+          <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+
+              <div class="card-body">
+                  <div class="row align-items-center justify-content-between mb-3">
+                      <div class="col-md-6">
+                          <h4 class="card-title  font-weight-bold">Bank Details</h4>
+                      </div>
+                      <div class="my-3 col-12"></div>
+                      <div class="col-12">
+                        <label for="accountname">Account Name</label>
+                        <p id="accountname"><%= account.accountname %></p>
+                      </div>
+                      <div class="col-12">
+                        <label for="accountnumber">Account Number</label>
+                        <p id="accountnumber"><%= account.accountnumber %></p>
+                      </div>
+                      <div class="col-12">
+                        <label for="bankname">Bank Name</label>
+                        <p id="bankname"><%= account.bankname %></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      <% } %>
+  </div>
+
+  </div>
+</div>
+
+
+
+<%- include('../partials/admin/scripts') %>
+
+<script>
+
+  function notify(status,message) {
+    iziToast[status]({
+      message: message,
+      position: "topRight"
+    });
+  }
+
+  const form = document.querySelector("form")
+  form.addEventListener("submit", async(event) => {
+    event.preventDefault()
+    document.getElementById("save").setAttribute("disabled", "disabled")
+
+    const bankcode = form.bank.value
+    const accountnumber = form.accountnumber.value
+    const accountname = form.accountname.value
+
+    if(bankcode && accountnumber && accountname) {
+      const res = await fetch('/admin-panel/add-bank', {
+        method: "post",
+        body: JSON.stringify({ bankcode, accountnumber, accountname }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      if(data.ok) {
+        notify("success", `${data.message}`)
+        form.reset()
+        setTimeout(() => {
+          location.reload()
+        }, 5000)
+      } else {
+        notify("error", `${data.error}`)
+      }
+    } else {
+      notify("error", "Fill in all fields")
+    }
+  })
+
+  const banks = document.querySelector(".bank_name")
+  banks.addEventListener("change", async (event) => {
+    event.preventDefault()
+
+    document.getElementById("account_name").setAttribute("value", ``)
+    document.getElementById("save").setAttribute("disabled", "disabled")
+
+    const accountnumber = document.getElementById("account_number").value
+    const bank = banks.value
+
+    const res = await fetch('/admin-panel/account-name', {
+      method: "post",
+      body: JSON.stringify({ account_bank: bank, account_number: accountnumber }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await res.json()
+    if(data.ok) {
+      if(data.data !== null) {
+        document.getElementById("account_name").setAttribute("value", `${data.data.account_name}`)
+        document.getElementById("hidden_div").removeAttribute("hidden")
+        document.getElementById("save").removeAttribute("disabled")
+      } else {
+        document.getElementById("account_name").setAttribute("value", `Account name and bank do not match`)
+        document.getElementById("hidden_div").removeAttribute("hidden")
+        notify("error", `Account name and bank do not match`)
+      }
+    } else {
+      document.getElementById("account_name").setAttribute("value", `${data.error}`)
+      document.getElementById("hidden_div").removeAttribute("hidden")
+      notify("error", `${data.error}`)
+    }
+  })
+</script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

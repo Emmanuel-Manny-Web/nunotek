@@ -1,0 +1,347 @@
+<html lang="en">
+    <%- include('../partials/clients/head') %>
+
+<body>
+
+
+<div class="wrapper">
+    <%- include('../partials/clients/sidebar') %>
+
+    <div class="main">
+        <%- include('../partials/clients/header') %>
+
+        <main class="content">
+            <div class="container-fluid p-0">
+
+							<h1 class="h3 mb-4 mt-5">Withdraw Money</h1>
+
+							<div class="row">
+								<div class="col-12">
+								<div class="section mt-4">
+								<div class="section-heading">
+							</div>
+        			<div class="section tab-content mt-2 mb-1">
+            		<div class="pb-120">
+
+								<div class="form-group mb-4">
+									<label for="" class="form-label">How are you withdrawing?</label>
+									<select name="method_code" class="form-control">
+										<option value="1">Naira Bank Transfer</option>
+									</select>
+								</div>
+								<%if(account) { %>
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Withdrawal Account Details</div>
+										</div>
+										<div class="card-body">
+											<div>
+												<p>
+													Account Name: <%= account.accountname.toUpperCase() %>
+												</p>
+												<p>
+													Account Number: <%= account.accountnumber %>
+												</p>
+												<p>
+													Bank Name: <%= account.bankname.toUpperCase() %>
+												</p>
+											</div>
+										</div>
+									</div>
+								<% } else { %>
+									<div class="row justify-content-center align-items-center">
+										<div class="card">
+											<div class="card-header">
+												<p class="fw-bold text-center">Bind Account</p>
+												<span>To enable withdrawal, you have to bind a bank account to your profile, all withdrawals will be made to the binded account.</span>
+												<div class="mt-3">
+													<form action="" id="bind">
+														<label for="account_number">Account Number</label>
+														<input type="text" class="form-control mb-3" id="account_number" name="accountnumber">
+														<label for="bank_name">Bank Name</label>
+														<select name="bankname" id="bank_name" class="form-control mb-3">
+															<option value="" selected disabled>Choose Bank</option>
+															<% banks.forEach((bank) => { %>
+																<option value="<%= bank.code %>"><%= bank.name %></option>
+															<% }) %>
+														</select>
+														<label for="account_name" id="account_label" hidden>Account Name</label>
+														<input type="text" class="form-control mb-3" id="account_name" name="accountname" hidden>
+														<div class="text-center">
+															<button class="btn btn-block btn-primary w-100" id="bind-btn" disabled>Bind</button>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								<% } %>
+									<br><br>
+									<div class="card">
+											<div class="card-header">
+													<div class="card-title">Withdrawal Amount</div>
+											</div>
+											<div class="card-body">
+												<input type="number" name="currency" class="edit-currency form-control" value="<%= wallet.profit %>" hidden id="balance">
+												<p class="text-success">
+													Account Balance - ₦ <%= Number(wallet.amount).toLocaleString() %>
+												</p>
+												<p class="text-success">
+													Withdrawable Balance - ₦ <span id="profit-balance"><%= Number(wallet.profit).toLocaleString() %> </span>
+												</p>
+												<p class="text-danger depositLimit">
+													Withdraw Limit: 1,000
+													- 500,000  NGN
+												</p>
+												<p class="text-danger depositCharge">
+													Charge: 5%
+												</p>
+												<form action="" id="withdraw">
+													<div class="form-group boxed">
+													<div class="input-wrapper">
+														<label class="label">Enter Amount (NGN):</label>
+														<input id="amount" type="number" class="form-control cmn--form--control" name="amount" placeholder="0.00" required="" value="">
+														<i class="clear-input">
+															<ion-icon name="close-circle"></ion-icon>
+														</i>
+													</div>
+													</div>
+													<div class="submit-btn mb-2 mt-2">
+														<button class="btn btn-success w-100" id="withdraw-btn" disabled>Submit</button>   
+													</div>
+												</form>
+												</div>
+        								</div>
+        							<br><br>
+
+        <div class="card mb-20">
+					<div class="card-header">
+						<p class="text-danger">Withdrawal Instructions</p>
+					</div>
+					<div class="card-body">
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							1. The minimum withdrawal amount is 1000NGN.
+						</p>
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							2. Withdrawals will be charged 5% personal income tax.</p>
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							3. There is no time limit for withdrawal, and withdrawals can be made at any time.
+						</p>
+						<!-- <p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							4. There is no limit to the number of withdrawals per day.
+						</p> -->
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							4. The withdrawal will be received within half an hour. If there are special circumstances that cause the withdrawal to be delayed, it will not exceed 24 hours.
+						</p>
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							5. Please make sure that your bank account information is filled in correctly, otherwise the withdrawal will fail.
+						</p>
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;">
+							6. In order to protect the interests of Nunotek and other users of the platform, you must purchase at least one product to activate the withdrawal function.
+						</p>
+						<p style="margin: 0px; padding: 0px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); display: block; margin-block: 1em; margin-inline: 0px;"><br style="color: rgb(153, 153, 153); font-family: Helvetica,Tahoma, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: left; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"><br>
+						</p>
+							<p class="text-danger">
+								Failure to BIND account will lead to loss of funds
+							</p>
+					</div>
+
+        </div>
+
+    </div>
+    </div>
+    </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <%- include('../partials/clients/footer') %>
+    </div>
+</div>
+
+<!-- bootstrap js -->
+<script src="js/jquery-3.4.1.min.js"></script>
+
+<script src="js/app.js"></script>
+
+
+
+<!-- <script>
+	"use strict";
+	$(document).ready(function () {
+		$('.deposit').on('click', function () {
+			var id = $(this).data('id');
+			var result = $(this).data('resource');
+			var minAmount = $(this).data('min_amount');
+			var maxAmount = $(this).data('max_amount');
+			var fixCharge = $(this).data('fix_charge');
+			var percentCharge = $(this).data('percent_charge');
+
+			var depositLimit = `Withdraw Limit: ${minAmount} - ${maxAmount}  NGN`;
+			$('.depositLimit').text(depositLimit);
+			var depositCharge = `Charge: ${fixCharge} NGN ${(0 < percentCharge) ? ' + ' + percentCharge + ' %' : ''}`
+			$('.depositCharge').text(depositCharge);
+			$('.method-name').text(`Withdraw Via ${result.name}`);
+			$('.edit-currency').val(result.currency);
+			$('.edit-method-code').val(result.id);
+		});
+	});
+</script> -->
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<%- include('../partials/clients/whatsapp') %>
+
+<style type="text/css">
+    .float{
+        position:fixed;
+        width:60px;
+        height:60px;
+        bottom:80px;
+        right:40px;
+        background-color:#0d93e9;
+        color:#FFF;
+        border-radius:50px;
+        text-align:center;
+        font-size:30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index:100;
+    }
+
+    .my-float{
+        margin-top:16px;
+    }
+</style>
+<link rel="stylesheet" href="css/izitoast.min.css">
+<script src="js/iziToast.min.js"></script>
+
+<script>
+	"use strict";
+	function notify(status,message) {
+		iziToast[status]({
+			message: message,
+			position: "topRight"
+		});
+	}
+	const button = document.querySelector("#bind-btn")
+  const banks = document.querySelector("#bank_name")
+	if(banks) {
+		banks.addEventListener("change", async (event) => {
+			event.preventDefault()
+			document.querySelector("#account_name").setAttribute("value", ``)
+
+			const accountnumber = document.getElementById("account_number").value
+			const bank = banks.value
+			button.setAttribute("disabled", "disabled")
+
+			const res = await fetch('/account-name', {
+				method: "post",
+				body: JSON.stringify({ account_bank: bank, account_number: accountnumber }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const {data} = await res.json()
+			if(data.status === 'success') {
+				if(data.data !== null) {
+					document.querySelector("#account_label").removeAttribute("hidden")
+					document.querySelector("#account_name").removeAttribute("hidden")
+					document.querySelector("#account_name").setAttribute("value", `${data.data.account_name}`)
+					button.removeAttribute("disabled")
+				} else {
+					document.querySelector("#account_label").removeAttribute("hidden")
+					document.querySelector("#account_name").removeAttribute("hidden")
+					document.querySelector("#account_name").setAttribute("value", `Account number and bank don't match`)
+				}
+			} else {
+				notify("error", 'Error processing request')
+			}
+		})
+	}
+
+	const bindForm = document.querySelector("#bind")
+	if(bindForm) {
+		bindForm.addEventListener("submit", async (event) => {
+			event.preventDefault()
+			button.setAttribute("disabled", "disabled")
+
+			const accountname = bindForm.accountname.value
+			const accountnumber = bindForm.accountnumber.value
+			const bankname = bindForm.bankname.value
+			
+			if(accountname && accountnumber && bankname) {
+        const res = await fetch('/bind-account', {
+          method: "post",
+          body: JSON.stringify({ accountname, accountnumber, bankname }),
+          headers: { 'Content-Type': 'application/json' }
+        })
+
+        const data = await res.json()
+        if(data.ok) {
+          notify("success", `${data.message}`)
+          setTimeout(() => {
+            location.reload()
+          }, 2000)
+        } else {
+					notify("error", `${data.error}`)
+					button.removeAttribute("disabled")
+				}
+      } else notify("error", "Fill in all fields")
+		})
+	}
+
+	const amount = document.querySelector("#amount")
+	amount.addEventListener("keyup", () => {
+    const balance = document.getElementById("balance").value
+		var val = document.querySelector("#amount").value
+		if(parseInt(val) >= 100 && parseInt(val) <= 500000 && parseInt(val) <= balance) {
+			document.getElementById("withdraw-btn").removeAttribute("disabled")
+		} else {
+			document.getElementById("withdraw-btn").setAttribute("disabled", "disabled")
+		}
+	})
+
+	const withdrawForm = document.querySelector("#withdraw")
+	withdrawForm.addEventListener("submit", async (event) => {
+		event.preventDefault()
+
+		if(!bindForm) {
+			document.querySelector("#withdraw-btn").setAttribute("disabled", "disabled")
+			const balance = document.getElementById("balance").value
+			var withdrawAmount = parseInt(amount.value)
+			
+			if(balance >= withdrawAmount) {
+      if(withdrawAmount >= 100) {
+        const res = await fetch('/withdraw-cash', {
+					method: "post",
+					body: JSON.stringify({ amount: withdrawAmount }),
+					headers: { 'Content-Type': 'application/json' }
+				})
+				const data = await res.json()
+				if(data.ok) {
+					withdrawForm.reset()
+					notify("success", `${data.message}`)
+					setTimeout(() => {
+						location.assign('/withdraw-history')
+					}, 2000)
+				} else {
+					withdrawForm.reset()
+					notify("error", `${data.error}`)
+				}
+      } else notify("error", "Minimum withdrawal of ₦100")
+			} else {
+				withdrawForm.reset()
+				notify("error", 'Insufficient profit balance, purchase an investment plan to earn profits.')
+			}
+		} else {
+			withdrawForm.reset()
+			notify("error", 'You must bind an account to enable withdrawal.')
+		}
+	})
+</script>
+</body>
+</html>

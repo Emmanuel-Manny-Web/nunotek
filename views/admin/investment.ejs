@@ -1,0 +1,174 @@
+<html lang="en">
+  <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">    Invest Log</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">    Invest Log</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+      <script>
+      "use strict"
+      function getCountDown(elementId, seconds) {
+          var times = seconds;
+          var x = setInterval(function () {
+              var distance = times * 1000;
+              var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+              document.getElementById(elementId).innerHTML = days + "d: " + hours + "h " + minutes + "m " + seconds + "s ";
+              if (distance < 0) {
+                  clearInterval(x);
+                  document.getElementById(elementId).innerHTML = "COMPLETE";
+              }
+              times--;
+          }, 1000);
+      }
+  </script>
+
+  <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+      <div class="card-body">
+          <table class="categories-show-table table table-hover table-striped table-bordered">
+              <thead class="thead-dark">
+              <tr>
+                  <th>SL</th>
+                  <th>Name</th>
+                  <th>Plan</th>
+                  <th>Return Interest</th>
+                  <th>Status</th>
+                  <th>Upcoming Payment</th>
+              </tr>
+              </thead>
+              <tbody>
+                <% investments.forEach((investment, index) => { %>
+                  <tr>
+                    <td data-label="SL">
+                        <%= index + 1 %>
+                    </td>
+
+                    <td data-label="Name">
+                        <a href="javascript:void(0)">
+                            <div class="d-flex no-block align-items-center">
+                                <div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
+                                </div>
+                                <div class="">
+                                    <h5 class="text-dark mb-0 font-16 font-weight-medium">
+                                      <%= investment.user[0].firstname %> <%= investment.user[0].lastname %>
+                                    </h5>
+                                    <span class="text-muted font-14"><%= investment.user[0].email %></span>
+                                    <% if(investment.user[0].suspend) { %>
+                                      <p class="text-danger font-14 font-weight-medium">suspended</p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </a>
+                    </td>
+                    <td data-label="Plan">
+                        <%= investment.product.toUpperCase() %>
+                        <br> ₦ <%= Number(investment.deposit).toLocaleString() %>
+                    </td>
+
+                    <td data-label="Return Interest" class="text-capitalize">
+                      ₦ <%= Number(investment.dailyIncome).toLocaleString() %>
+                        per Day
+
+                        <br>
+                        
+                    </td>
+                    <td data-label="Status">
+                        <% if(investment.active) { %>
+                          <p class="text-warning font-weight-medium">Ongoing</p>
+                        <% } else { %>
+                          <p class="text-success font-weight-medium">Completed</p>
+                        <% } %>
+                    </td>
+
+                    <td data-label="Upcoming Payment">
+                      <p id="profit" class="mb-2" value="<%= investment.start %>"></p>
+                      <div class="progress">
+                      <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+            </tbody>
+          </table>
+
+      </div>
+
+  </div>
+
+
+      <footer class="footer text-center text-muted">
+          Copyrights © 2023 All Rights Reserved By Hyippro        </footer>
+
+  </div>
+</div>
+
+<script>
+  const profits = document.querySelectorAll("#profit")
+	profits.forEach((profit, index) => {
+    console.log("yes")
+		var date = profit.getAttribute("value")
+		var warning = document.querySelectorAll(".text-warning")[index]
+		if(warning.innerHTML === 'Ongoing') {
+			var start = new Date()
+			var countdown = new Date(date)
+			while(start > countdown) {
+        countdown = new Date(countdown.setDate(countdown.getDate() + 1))
+			}
+			var time = countdown.getTime()
+			setInterval(() => {
+				var now = new Date().getTime()
+				var distance = time - now
+
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+				hours = hours.toString().length > 1 ? hours : "0" + hours
+				minutes = minutes.toString().length > 1 ? minutes : "0" + minutes
+				seconds = seconds.toString().length > 1 ? seconds : "0" + seconds
+
+				var timeLeft = hours + ":" + minutes + ":" + seconds
+				profit.innerHTML = timeLeft
+        var progressbar = document.querySelectorAll(".progress-bar")[index]
+        var percentage = (hours / 24) * 100
+        progressbar.style = `width: ${percentage}%;`
+        progressbar.innerHTML = Number(percentage).toFixed(2) + "%"
+			}, 1000)
+		} else profit.innerHTML = "NULL"
+	})
+</script>
+
+<%- include('../partials/admin/scripts') %>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

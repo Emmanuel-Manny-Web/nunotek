@@ -1,0 +1,41 @@
+import { Router } from "express"
+import API from "../controller/admincontroller"
+import AuthCheck, { checkLoggedIn } from "../middleware/adminAuth"
+
+const router = Router()
+
+router.get('/', checkLoggedIn, API.getAdminLogin)
+router.post('/register', checkLoggedIn, API.registerAdmin)
+router.post('/login', checkLoggedIn, API.loginAdmin)
+router.get('/logout', AuthCheck, API.logoutAdmin)
+router.get('/dashboard', AuthCheck, API.getAdminDashboard)
+router.post('/login-user', AuthCheck, API.loginUser)
+router.get('/bank', AuthCheck, API.getDepositBank)
+router.post('/add-bank', AuthCheck, API.addDepositBank)
+router.post('/account-name', AuthCheck, API.getBankAccountName)
+router.get('/investment', AuthCheck, API.getAllInvestments)
+router.get('/users', AuthCheck, API.getAllUsers)
+router.get('/coupon', AuthCheck, API.getCoupon)
+router.get('/users-profile/:id', AuthCheck, API.getUserProfile)
+router.get('/activate-coupon', AuthCheck, API.activateCoupon)
+router.get('/deactivate-coupon', AuthCheck, API.deactivateCoupon)
+router.post('/alter-balance/:id', AuthCheck, API.alterBalance)
+router.get('/deposit-request', AuthCheck, API.getAllDepositRequest)
+router.get('/deposit-log', AuthCheck, API.getAllDepositLog)
+router.get('/withdrawal-request', AuthCheck, API.getAllWithdrawalRequest)
+router.get('/withdrawal-log', AuthCheck, API.getAllWithdrawalLog)
+router.post('/amount-withdrawn', AuthCheck, API.getUserWithdrawalAmount)
+router.post('/suspend-withdrawal', AuthCheck, API.suspendWithdrawal)
+router.post('/activate-withdrawal', AuthCheck, API.activateWithdrawal)
+router.post('/approve-deposit', AuthCheck, API.approveDeposit)
+router.post('/reject-deposit', AuthCheck, API.rejectDeposit)
+router.post('/approve-withdrawal', AuthCheck, API.approveWithdrawal)
+router.post('/reject-withdrawal', AuthCheck, API.rejectWithdrawal)
+router.post('/pay-withdrawal', AuthCheck, API.payWithdrawal)
+router.post('/ban', AuthCheck, API.banUser)
+router.post('/remove-ban', AuthCheck, API.removeBan)
+router.post('/add-balance', AuthCheck, API.addUserBalance)
+router.post('/approve', AuthCheck, API.approve)
+router.post('/reset-password', AuthCheck, API.changeUserPassword)
+
+export default router

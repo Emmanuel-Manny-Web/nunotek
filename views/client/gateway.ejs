@@ -1,0 +1,588 @@
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    <%= title %>
+  </title>
+  <link rel="icon" href="images/favicon.jpeg" type="image/x-icon">
+  <link rel="apple-touch-icon" href="images/favicon.jpeg">
+
+  <link rel="stylesheet" href="vipalat/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="vipalat/css/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="vipalat/css/slick.css">
+  <link rel="stylesheet" href="vipalat/css/slick-theme.css">
+
+  <link rel="stylesheet" href="vipalat/css/demo.css">
+
+  <link rel="stylesheet" href="vipalat/css/materialdesignicons.min.css">
+
+  <link rel="stylesheet" href="vipalat/css/style.css">
+
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+
+
+  <style type="text/css">
+    .quick_amount {
+      width: 100%;
+    }
+
+    .quick_amount p {
+      display: inline-block;
+      text-align: center;
+      font-size: 16px;
+      line-height: 40px;
+      border: 1px #ffffff solid;
+      color: #333;
+      margin: 10px 3.3%;
+      width: 25%;
+      background: #ffffff;
+      border-radius: 4px;
+    }
+
+    .quick_amount p.active {
+      border: #a72e39 1px solid;
+      color: #fffffc;
+      border-radius: 4px;
+      background: #a72e39;
+    }
+
+    .quick_method p {
+      display: inline-block;
+      text-align: center;
+      font-size: 16px;
+      line-height: 40px;
+      color: #007fce;
+      margin: 10px 1%;
+      width: 30%;
+      background: #ffffff;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .quick_method p.active {
+      border: #a72e39 1px solid;
+      color: #fffffc;
+      border-radius: 4px;
+      background: #a72e39;
+    }
+
+    .form-control {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+
+<body class="bg-light" data-new-gr-c-s-check-loaded="14.1117.0" data-gr-ext-installed="">
+
+  <div class="position-absolute w-100 h-100 row justify-content-center align-items-center" id="loader"
+    style="z-index: 2;" hidden>
+    <div class="spinner-grow text-dark" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-dark mx-4" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-dark" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+  <div class="home d-flex flex-column vh-100">
+    <div class="shadow-sm" style="background-color: #4CA7B9;">
+      <div class="d-flex align-items-center justify-content-between mb-auto p-3 osahan-header">
+        <div class="d-flex align-items-center gap-2 me-auto">
+
+
+
+          <!-- <a href="/dashboard" class="text-dark bg-white shadow rounded-circle icon">
+                    <span class="mdi mdi-arrow-left mdi-18px"></span>
+                  </a> -->
+          <h6 class="mb-0 ms-3 me-auto fw-bold text-white">Deposit</h6>
+
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="vh-100 my-auto overflow-auto body-fix-osahan-footer">
+
+      <div class="dashboard-section pt-120 bg--section" id="deposit-manual">
+        <div class="container">
+          <div class="pb-120 mb-05">
+
+            <br>
+
+            <div class="card mb-20">
+
+              <div class="card-header">
+                <h5 class="card-title mb-0">How to Make Payment</h5>
+              </div>
+
+              <div class="card-body">
+                <div>Step 1 - Copy account details and transfer funds</div>
+                <div>Step 2 - Type in senders full details/ name/bank transfered from</div>
+                <div>Step 3 - Hit the submit button 🔘<br></div>
+              </div>
+
+            </div>
+
+
+            <br><br>
+
+            <div class="card">
+
+              <div class="card-header">
+                <h5 class="card-title mb-0">Deposit Details</h5>
+              </div>
+
+              <div class="card-body">
+                <table class="table">
+                  <% if(account) { %>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span>Bank Name</span>
+                        </td>
+                        <td>
+                          <span>
+                            <%= account.bankname %>
+                          </span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Account Name</td>
+                        <td>
+                          <span>
+                            <%= account.accountname %>
+                          </span>
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Recipient Account Number</td>
+                        <td>
+                          <span id="account_number">
+                            <%= account.accountnumber %>
+                          </span>
+                          <button class="btn btn-sm btn-copy-account" data-clipboard-target="#account_number"
+                            style="background-color: #4CA7B9;">Copy
+                          </button>
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>Amount to Pay</td>
+                        <td>
+                          <span id="final_amount"></span>
+                          <button class="btn btn-sm btn-copy-amount" data-clipboard-target="#final_amount"
+                            style="background-color: #4CA7B9;">Copy
+                          </button>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>Transfer Narration</td>
+                        <td>
+                          <span id="narration">
+                            <%= narration %>
+                          </span>
+                          <button class="btn btn-sm btn-copy-narration" style="background-color: #4CA7B9;">Copy</button>
+
+                          <p>
+                            Use the unique generated reference as transfer narration
+                          </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <% } else { %>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <span>Bank Name</span>
+                          </td>
+                          <td>
+                            <span>
+                              <%= bank.bank_name %>
+                            </span>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Account Name</td>
+                          <td>
+                            <span>
+                              <%= bank.note.slice(31, -3) %>
+                            </span>
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td>Recipient Account Number</td>
+                          <td>
+                            <span id="account_number">
+                              <%= bank.account_number %>
+                            </span>
+                            <button class="btn btn-sm btn-copy-account" data-clipboard-target="#account_number"
+                              style="background-color: #4CA7B9;">Copy
+                            </button>
+                          </td>
+                        </tr>
+
+
+                        <tr>
+                          <td>Amount to Pay</td>
+                          <td>
+                            <span id="final_amount"><%= Number(deposit.amount).toLocaleString() %></span>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Transfer Narration</td>
+                          <td>
+                            <span id="narration">
+                              <%= deposit.narration %>
+                            </span>
+                            <button class="btn btn-sm btn-copy-narration"
+                              style="background-color: #4CA7B9;">Copy</button>
+
+                            <p>
+                              Use the unique generated reference as transfer narration
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <% } %>
+                </table>
+              </div>
+
+            </div>
+
+            <br>
+
+
+
+
+            <br>
+
+
+            <div class="card">
+              <div class="card-body">
+                <form action="" method="POST" class="auth-form offer-form create-form">
+                  <div class="submit-btn">
+                    <button type="submit" class="btn btn-success w-100 mt-2 text-center theme-btn">Submit For
+                      Processing</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <p style="margin-top:1rem; padding: 10px">
+        Deposit instructions <br>
+
+
+        1. Nunotek has merged with the Nigerian bank at present, and you can directly use bank transfer
+        to complete the
+        deposit. After deposit is completed, your PayFlow account will be funded with the deposited amount.
+      </p>
+    </div>
+
+  </div>
+
+  <script src="vipalat/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+  <script src="vipalat/js/jquery.min.js" type="text/javascript"></script>
+
+  <script src="vipalat/js/slick.min.js" type="text/javascript"></script>
+
+  <script src="vipalat/js/hc-offcanvas-nav.js" type="text/javascript"></script>
+
+  <script src="vipalat/js/script.js" type="text/javascript"></script>
+
+
+
+
+  <style type="text/css">
+    .guize_html {
+      width: 90%;
+      height: auto;
+      border-radius: 4px;
+      background-color: #fff9ea;
+      color: #000;
+      text-align: center;
+      font-size: 12px;
+      margin: auto;
+      margin-top: 100px;
+      /* 		padding-bottom: 20px; */
+    }
+
+    .guize_html p {
+      font-size: 12px;
+      padding: 0 16px;
+      text-align: left;
+      text-indent: 2em
+    }
+
+    .guize_html_nei {
+      color: #0e1a32;
+      min-height: 400px;
+      overflow-y: auto;
+      max-height: 400px;
+      height: 400px;
+      display: block;
+      overflow-y: scroll;
+    }
+
+    .btnyu {
+      display: block;
+      margin: 10px auto;
+      height: 40px;
+      border-radius: 0 0 4px 4px;
+      background-color: #f1ddae;
+      color: #000;
+      text-align: center;
+      line-height: 40px;
+      cursor: pointer;
+    }
+
+    .overfloat {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9;
+      display: none;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(1, 1, 1, .5)
+    }
+
+    .guize_html img {
+      width: 75px;
+      margin-top: -30px;
+      background: #182730;
+      border-radius: 50%;
+    }
+
+    .loader {
+      border: 16px solid #f3f3f3;
+      /* Light grey */
+      border-top: 12px solid #3498db;
+      border-bottom: 12px solid #3498db;
+      /* Blue */
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      animation: spin 2s linear infinite;
+      margin: 0 auto;
+      z-index: 2;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .wrapper {
+      position: absolute;
+      top: 0;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(1, 1, 1, .5);
+      text-align: center;
+    }
+  </style>
+  <script type="text/javascript">
+    var isview = 0;
+
+    if (isview == 1) {
+      $("#gui_kai").show();
+    }
+
+    $('#g_close').click(function () {
+      $("#gui_kai").hide();
+    });
+
+  </script>
+  <script>
+
+    (function ($) {
+      "use strict";
+
+
+      $('#tit span').click(function () {
+        var i = $(this).index();
+        $(this).addClass('select').siblings().removeClass('select');
+        $('.quick_amount p').removeClass('active');
+        $(".quick_method").text('');
+        $("#amount").val('');
+        let type = $(this).attr('data-id');
+        loadmethod(type);
+        $("#r_type").val(type);
+
+      });
+
+      var $amountInput = $('[type="number"]');
+      var amount = '';
+      var r_type = 1;
+      var bili = 1;
+
+      $(".quick_amount p").off("click").on("click", function () {
+        r_type = $("#r_type").val();
+        amount = $(this).text();
+
+        if (!$(this).hasClass('active')) {
+          $(this).addClass('active').siblings().removeClass('active');
+          $amountInput.val(amount);
+        } else {
+          $(this).removeClass('active');
+          $amountInput.val('');
+        }
+      })
+      $amountInput.on('input propertychange', function () {
+
+        if ($(this).val() !== $('.quick_amount p.active').text()) {
+          $('.quick_amount p').removeClass('active');
+        }
+      })
+
+
+      $("#qty").on("keyup", function () {
+        let v = $(this).val();
+        let amt = v;// * 550;
+        let amt2 = v;// * 750;
+
+        $("#amount").val(amt);
+        $("#amount2").val(amt2);
+      });
+
+
+      $(".custom-amount").on("click", function () {
+        $("#amount").val($(this).text());
+      });
+
+      $('.deposit').on('click', function () {
+        var name = $(this).data('name');
+        var currency = $(this).data('currency');
+        var method_code = $(this).data('method_code');
+        var minAmount = $(this).data('min_amount');
+        var maxAmount = $(this).data('max_amount');
+        var baseSymbol = "NGN";
+        var fixCharge = $(this).data('fix_charge');
+        var percentCharge = $(this).data('percent_charge');
+
+        var depositLimit = `Deposit Limit: ${minAmount} - ${maxAmount}  ${baseSymbol}`;
+        $('.depositLimit').text(depositLimit);
+        var depositCharge = `Charge: ${fixCharge} ${baseSymbol}  ${(0 < percentCharge) ? ' + ' + percentCharge + ' % ' : ''}`;
+        $('.depositCharge').text(depositCharge);
+        $('.method-name').text(`Payment By  ${name}`);
+        $('.currency-addon').text(baseSymbol);
+        $('.edit-currency').val(currency);
+        $('.edit-method-code').val(method_code);
+      });
+
+      $('.prevent-double-click').on('click', function () {
+        $(this).addClass('button-none');
+        $(this).html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+      });
+
+
+    })(jQuery);
+
+    function copy_value(id, text) {
+      var copyText = document.getElementById(id);
+      var textArea = document.createElement("textarea");
+      textArea.value = copyText.textContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("Copy");
+      textArea.remove();
+
+      iziToast.success({ message: text + ": " + copyText.textContent, position: "topRight" });
+    }
+
+    $(".btn-copy-amount").on("click", function () {
+      copy_value("final_amount", "Amount copied ");
+    });
+
+    $(".btn-copy-account").on("click", function () {
+      copy_value("account_number", " Account copied ");
+    });
+
+
+    $(".btn-copy-narration").on("click", function () {
+      copy_value("narration", "Narration copied ");
+    });
+  </script>
+
+  <style type="text/css">
+    .float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 80px;
+      right: 40px;
+      background-color: #0de993;
+      color: #FFF;
+      border-radius: 50px;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 2px 2px 3px #999;
+      z-index: 100;
+    }
+
+    .my-float {
+      margin-top: 16px;
+    }
+  </style>
+  <link rel="stylesheet" href="vipalat/css/iziToast.min.css">
+  <script src="vipalat/js/iziToast.min.js"></script>
+
+  <script>
+    "use strict";
+    function notify(status, message) {
+      iziToast[status]({
+        message: message,
+        position: "topRight"
+      });
+    }
+    const amount = document.getElementById("amount")
+
+    document.querySelectorAll(".quick_amount p").forEach((element, index) => {
+      element.addEventListener("click", () => {
+        document.getElementById("final_amount").textContent = element.innerHTML
+      })
+    })
+
+    const button = document.querySelector("button")
+    button.addEventListener("click", (event) => {
+      event.preventDefault()
+
+      location.assign("/funding-history")
+    })
+  </script>
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>
