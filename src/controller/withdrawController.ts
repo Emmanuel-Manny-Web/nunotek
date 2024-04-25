@@ -56,7 +56,7 @@ export default class Handler {
         if(withdraw.length < 1) {
           try {
             if(account) {
-              if (amount >= 100 && amount <= 500000) {
+              if (amount >= 1000 && amount <= 500000) {
                 if (wallet.profit >= parseInt(amount)) {
                   var deduct = 0.05 * parseInt(amount)
                   var paid = parseInt(amount) - deduct
@@ -109,7 +109,7 @@ export default class Handler {
                   }
                 } else res.status(201).json({ ok: false, error: "Insufficient profit balance, purchase an investment to earn profit." })
               } else {
-                res.status(201).json({ ok: false, error: "Minimum withdrawal of 600 and maximum 500,000"})
+                res.status(201).json({ ok: false, error: "Minimum withdrawal of 1000 and maximum 500,000"})
               }
             } else {
               res.status(201).json({ ok: false, error: "You must bind an account to enable withdrawal"})
@@ -128,7 +128,6 @@ export default class Handler {
   static async successfulWithdrawal(req: Request, res: Response) {
     const { data, event } = req.body
     const signature = req.headers['verif-hash']
-    console.log(data)
     if (data.status === 'SUCCESSFUL' && event === 'transfer.completed' && process.env.FLW_SECRET_WITHDRAWAL_HASH === signature) {
       await Withdraw.findOneAndUpdate({ withdrawalID: data.id }, { status: "Paid" })
       res.status(201).json({ ok: true })
