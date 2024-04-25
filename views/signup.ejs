@@ -27,7 +27,7 @@
 
   <!-- endinject -->
 
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.jpeg">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/nunotek.png">
 
   <!-- Fonts -->
   <link rel="stylesheet" href="css/line.css">
@@ -92,6 +92,9 @@
                         <div class="position-relative">
                           <input id="password" required="" type="password" class="form-control" name="password"
                             placeholder="">
+                          <div class="text-lighten fs-15 field-icon toggle-password2 password-visibility">
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                          </div>
                         </div>
                       </div>
 
@@ -100,22 +103,11 @@
                         <div class="position-relative">
                           <input id="password-field" required="" type="password" class="form-control"
                             name="passwordconfirmation" placeholder="">
+                          <div class="text-lighten fs-15 field-icon toggle-password2 password-visible">
+                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                          </div>
                         </div>
                       </div>
-                      <!-- <input type="hidden" name="_token" value="4w20kvykaM0oFQ2okGusnw3qnyJVR2V53bxFRclV"> -->
-
-                      <!-- <div class="col-xs-12">
-                                   <div class="g-recaptcha" data-sitekey="6Lc8tYslAAAAAPFJsIH9spJIVP-1w-FZFfGeDyh2"><div style="width: 304px; height: 78px;"><div><iframe title="reCAPTCHA" src="anchor_1.html" width="304" height="78" role="presentation" name="a-fx3tk6ce5qb7" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
-                                   
-                               </div> -->
-                      <!-- <div class="admin-condition">
-                                    <div class="checkbox-theme-default custom-checkbox ">
-                                       <input class="checkbox" name="terms_and_privacy_policy" type="checkbox" id="check-1">
-                                       <label for="check-1">
-                                          <span class="checkbox-text">I accept the terms and privacy policy.</span>
-                                       </label>
-                                    </div>
-                                 </div> -->
                       <div
                         class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center">
                         <button
@@ -178,7 +170,7 @@
       const code = params.get('code')
       if (password === passwordconfirmation && passwordError.length < 1 && email && password && firstname && lastname && phone) {
         try {
-          if(code) {
+          if (code) {
             const res = await fetch(`/signup?code=${code}`, {
               method: "POST",
               body: JSON.stringify({ email, password, firstname, lastname, phone }),
@@ -220,6 +212,19 @@
           registerError.textContent = passwordError ? passwordError : 'Fill in all fields'
         }
       }
+    })
+    const togglePassword = document.querySelector(".password-visibility")
+    togglePassword.addEventListener("click", (event) => {
+      const password = document.querySelector("#password")
+      const type = password.getAttribute("type")
+      type === "text" ? password.setAttribute("type", "password") : password.setAttribute("type", "text")
+    })
+
+    const passwordToggle = document.querySelector(".password-visible")
+    passwordToggle.addEventListener("click", (event) => {
+      const pass = document.querySelector("#password-field")
+      const type = pass.getAttribute("type")
+      type === "text" ? pass.setAttribute("type", "password") : pass.setAttribute("type", "text")
     })
   </script>
   <!--End of Tawk.to Script-->
