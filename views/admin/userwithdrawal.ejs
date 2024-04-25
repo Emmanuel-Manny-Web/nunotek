@@ -53,10 +53,10 @@
 						</thead>
 						<tbody>
 							<% withdrawals.forEach((withdrawal) => { %>
-								<tr>
+								<tr id="table-row">
 									<td data-label="Date"> <%= withdrawal.createdAt.toString().slice(0, 21) %></td>
-									<td data-label="Name">
-										<a href="javascript:void(0)" target="_blank">
+									<td data-label="Name" id="user-email">
+										<a href="/control-route/users-profile/<%= withdrawal.user._id %>" target="_blank">
 											<div class="d-flex no-block align-items-center">
 												<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
 												</div>
@@ -167,7 +167,7 @@
 		reject.setAttribute("disabled", "disabled")
 		closeBtn.setAttribute("disabled", "disabled")
 
-		const res = await fetch('/admin-panel/pay-withdrawal', {
+		const res = await fetch('/control-route/pay-withdrawal', {
 			method: "post",
 			body: JSON.stringify({ id }),
 			headers: { 'Content-Type': 'application/json' }
@@ -197,7 +197,7 @@
 
 	reject.addEventListener("click", async (event) => {
 		event.preventDefault()
-		const res = await fetch('/admin-panel/reject-withdrawal', {
+		const res = await fetch('/control-route/reject-withdrawal', {
 			method: "post",
 			body: JSON.stringify({ id }),
 			headers: { 'Content-Type': 'application/json' }
@@ -217,7 +217,7 @@
 
 	approve.addEventListener("click", async (event) => {
 		event.preventDefault()
-		const res = await fetch('/admin-panel/approve-withdrawal', {
+		const res = await fetch('/control-route/approve-withdrawal', {
 			method: "post",
 			body: JSON.stringify({ id }),
 			headers: { 'Content-Type': 'application/json' }

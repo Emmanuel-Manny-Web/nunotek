@@ -1,0 +1,558 @@
+<html lang="en">
+<%- include("../partials/admin/head") %>
+
+  <body>
+    <div class="preloader" style="display: none">
+      <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+      </div>
+    </div>
+
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6"
+      data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed"
+      data-boxed-layout="full" class="mini-sidebar">
+      <%- include("../partials/admin/header") %> <%- include("../partials/admin/sidebar") %>
+
+          <div class="page-wrapper" style="display: block">
+            <div class="page-breadcrumb">
+              <div class="row">
+                <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">
+                    <%= user.lastname %>
+                  </h4>
+
+                  <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item text-muted active" aria-current="page">
+                          Dashboard
+                        </li>
+                        <li class="breadcrumb-item text-muted" aria-current="page">
+                          <%= user.lastname %>
+                        </li>
+                      </ol>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="m-0 m-md-4 my-4 m-md-0">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="card card-primary">
+                    <div class="card-body">
+                      <h4 class="card-title">Profile</h4>
+                      <div class="form-group">
+                        <div class="image-input">
+                          <!-- <img id="image_preview_container" class="preview-image"
+                            src="https://script.bugfinder.net/hyippro/goldblack/assets/admin/images/default.png"
+                            alt="preview image" /> -->
+                        </div>
+                      </div>
+                      <h3>
+                        <%= user.lastname %>
+                      </h3>
+                      <p class="fw-bold">
+                        Joined At <%= user.createdAt.toString().slice(0, 21) %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="card card-primary">
+                    <div class="card-body">
+                      <h4 class="card-title">User information</h4>
+                      <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Email <span>
+                            <%= user.email %>
+                          </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Username
+                          <span>
+                            <%= user.firstname %>
+                              <%= user.lastname %>
+                          </span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Status <% if(!user.ban && !user.suspend) { %>
+                            <span class="badge badge-success success badge-pill">Active</span>
+                            <% } else if(user.ban) { %>
+                              <span class="badge badge-danger danger badge-pill">Banned</span>
+                              <% } else if(user.suspend) { %>
+                                <span class="badge badge-danger danger badge-pill">Unable to Withdraw</span>
+                                <% } %>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Balance
+                          <span>₦ <%= Number(wallet.amount).toLocaleString() %>
+                          </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Profit Balance
+                          <span>₦ <%= Number(wallet.profit).toLocaleString() %>
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="card card-primary">
+                    <div class="card-body">
+                      <h4 class="card-title">User action</h4>
+
+                      <div class="btn-list">
+                        <button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#balance">
+                          <span class="btn-label"><i class="fas fa-hand-holding-usd"></i></span>
+                          Add/Subtract Fund
+                        </button>
+                        <% if(!user.ban) { %>
+                          <a href="javascript:void(0)" class="btn btn-danger btn-sm" id="ban-user" value="<%= user.email %>">
+                            <span class="btn-label"><i class="fas fa-ban text-white pr-2"></i></span>
+                            Ban User
+                          </a>
+                          <% } else { %>
+                            <a href="javascript:void(0)" class="btn btn-info btn-sm" id="remove-ban" value="<%= user.email %>">
+                              <span class="btn-label"><i class="far fa-check-circle text-success pr-2"></i></span>
+                              Remove Ban
+                            </a>
+                            <% } %>
+                              <% if(!user.suspend) { %>
+                                <a href="javascript:void(0)" class="btn btn-info btn-sm" id="suspend-withdrawal" value="<%= user.email %>">
+                                  <span class="btn-label"><i class="fas fa-ban text-danger pr-2"></i></span>
+                                  Suspend Withdrawal
+                                </a>
+                                <% } else { %>
+                                  <a href="javascript:void(0)" class="btn btn-info btn-sm" id="activate-withdrawal" value="<%= user.email %>">
+                                    <span class="btn-label"><i class="far fa-check-circle text-success pr-2"></i></span>
+                                    Activate Withdrawal
+                                  </a>
+                                  <% } %>
+                                    <!-- <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/transaction/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-exchange-alt"></i></span>
+                          Transaction Log
+                        </a>
+
+                        
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/payoutLog/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-hand-holding"></i></span>
+                          Payout History
+                        </a>
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/investmentLog/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-tree"></i></span>
+                          Investments Log
+                        </a>
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/commissionLog/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-newspaper"></i></span>
+                          Commissions
+                        </a>
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/send-email/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-envelope-open"></i></span>
+                          Send Email
+                        </a>
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/referralMember/3187"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-users"></i></span>
+                          Referral Member
+                        </a>
+
+                        <a href="https://script.bugfinder.net/hyippro/goldblack/admin/user/3187/kyc"
+                          class="btn btn-info btn-sm">
+                          <span class="btn-label"><i class="fas fa-file-invoice"></i></span>
+                          KYC Records
+                        </a> -->
+
+                                    <a class="btn btn-info btn-sm loginAccount text-white" type="button"
+                                      data-toggle="modal" data-target="#signIn" value="<%= user.email %>">
+                                      <span class="btn-label">
+                                        <i class="fas fa-sign-in-alt"></i></span>
+                                      Login as User
+                                    </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-8">
+                  <div class="card card-primary">
+                    <div class="card-body">
+                      <h4 class="card-title">
+                        <%= user.lastname %> Information
+                      </h4>
+                      <form method="post" action=""
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="SB1Sb7hgGJgjEbP7BtRMQ6rxArLeWfowzjqTD10U" />
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>First Name</label>
+                              <input class="form-control" type="text" name="firstname" value="<%= user.firstname %>"
+                                required="" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Last Name</label>
+                              <input class="form-control" type="text" name="lastname" value="<%= user.lastname %>"
+                                required="" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input class="form-control" type="email" name="email" value="<%= user.email %>"
+                                required="" />
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Phone Number</label>
+                              <input class="form-control" type="text" name="phone" value="<%= user.phone %>" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="submit-btn-wrapper mt-md-3 text-center text-md-left">
+                          <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-block">
+                            <span>Update User</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="card card-primary">
+                    <div class="card-body">
+                      <h4 class="card-title">Password Change</h4>
+
+                      <form method="post"
+                        action=""
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="_token" value="SB1Sb7hgGJgjEbP7BtRMQ6rxArLeWfowzjqTD10U" />
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label>New Password</label>
+                              <input id="new_password" type="password" class="form-control" name="password"
+                                autocomplete="current-password" />
+                            </div>
+                            <div class="form-group">
+                              <label>Confirm Password</label>
+                              <input id="confirm_password" type="password" name="password_confirmation"
+                                autocomplete="current-password" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <input type="text" id="password_reset" value="<%= user.email %>" hidden>
+                        <div class="submit-btn-wrapper mt-md-3 text-center text-md-left">
+                          <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-block" id="password-reset">
+                            <span>Update Password</span>
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The Modal -->
+            <div class="modal fade" id="balance">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <form method="post">
+                    <input type="hidden" name="_token" value="SB1Sb7hgGJgjEbP7BtRMQ6rxArLeWfowzjqTD10U" />
+                    <!-- Modal Header -->
+                    <div class="modal-header modal-colored-header bg-primary">
+                      <h4 class="modal-title">Add / Subtract Balance</h4>
+                      <button type="button" class="close" data-dismiss="modal">
+                        ×
+                      </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label>Select Wallet</label>
+                        <select name="wallet" class="form-control"
+                          data-select2-id="select2-data-5-hfs3" tabindex="-1" aria-hidden="true" id="wallet">
+                          <option value="" disabled selected>Select Wallet</option>
+                          <option value="main_balance" class="text-white bg-dark" data-select2-id="select2-data-7-rysa">
+                            Main balance
+                          </option>
+                          <option value="profit_balance" class="text-white bg-dark">
+                            Profit Balance
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Amount</label>
+                        <input class="form-control" type="number" name="balance" id="amount" />
+                      </div>
+
+                      <div class="form-group">
+                        <label>Method</label>
+                        <select name="walet" class="form-control"
+                          data-select2-id="select2-data-5-hfs3" tabindex="-1" aria-hidden="true" id="method">
+                          <option value="" disabled selected>Select Method</option>
+                          <option value="add" class="text-white bg-dark" data-select2-id="select2-data-7-rysa">
+                            Add to balance
+                          </option>
+                          <option value="subtract" class="text-white bg-dark">
+                            Subtract from balance
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-dismiss="modal" id="close-alter-balance">
+                        <span>Close</span>
+                      </button>
+                      <button type="submit" class="btn btn-primary balanceSave" id="alter-balance">
+                        <span>Submit</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Admin Login as a User Modal -->
+            <div class="modal fade" id="signIn">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <form method="post" action="" class="loginAccountAction" enctype="multipart/form-data">
+                    <input type="hidden" name="_token" value="SB1Sb7hgGJgjEbP7BtRMQ6rxArLeWfowzjqTD10U" />
+                    <!-- Modal Header -->
+                    <div class="modal-header modal-colored-header bg-primary">
+                      <h4 class="modal-title">Sing In Confirmation</h4>
+                      <button type="button" class="close" data-dismiss="modal">
+                        ×
+                      </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <p>Are you sure to sign in this account?</p>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-light" data-dismiss="modal">
+                        <span>Close</span>
+                      </button>
+                      <button type="button" class="btn btn-primary" id="login-user" value="<%= user.email %>">
+                        <span>Yes</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <footer class="footer text-center text-muted">
+              Copyrights © 2023 All Rights Reserved By Hyippro
+            </footer>
+          </div>
+    </div>
+
+    <%- include('../partials/admin/scripts') %>
+    <script>
+      function notify(status,message) {
+        iziToast[status]({
+          message: message,
+          position: "topRight"
+        })
+      }
+      const closeBalance = document.getElementById("close-alter-balance")
+      const alterBalance = document.getElementById("alter-balance")
+      alterBalance.addEventListener("click", async (event) => {
+        event.preventDefault()
+        
+        const wallet = document.getElementById("wallet").value
+        const method = document.getElementById("method").value
+        const amount = document.getElementById("amount").value
+
+        if (wallet && method && amount) {
+          const res = await fetch('/control-route/alter-balance/<%= user._id %>', {
+            method: "post",
+            body: JSON.stringify({ wallet, method, amount }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const data = await res.json()
+          if(data.message) {
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.reload()
+            }, 3000)
+          } else {
+            notify("error", `${data.error}`)
+            closeBalance.click()
+          }
+        } else notify("error", "Error"); closeBalance.click()
+      })
+      const suspendWithdrawal = document.querySelector("#suspend-withdrawal")
+      if(suspendWithdrawal) {
+        suspendWithdrawal.addEventListener("click", async (event)  => {
+          event.preventDefault()
+          const email = suspendWithdrawal.getAttribute("value")
+          const res = await fetch('/control-route/suspend-withdrawal', {
+            method: "post",
+            body: JSON.stringify({ email }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.reload()
+            }, 5000)
+          } else {
+            notify("error", `${data.error}`)
+          }
+        })
+      }
+      const activateWithdrawal = document.querySelector("#activate-withdrawal")
+      if(activateWithdrawal) {
+        activateWithdrawal.addEventListener("click", async (event) => {
+          event.preventDefault()
+          const email = activateWithdrawal.getAttribute("value")
+          const res = await fetch('/control-route/activate-withdrawal', {
+            method: "post",
+            body: JSON.stringify({ email }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.reload()
+            }, 5000)
+          } else {
+            notify("error", `${data.error}`)
+          }
+        })
+      }
+      const banUsers = document.querySelector("#ban-user")
+      if(banUsers) {
+        banUsers.addEventListener("click", async (event) => {
+          event.preventDefault()
+          const email = banUsers.getAttribute("value")
+
+          const res = await fetch('/control-route/ban', {
+            method: "post",
+            body: JSON.stringify({ email }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.reload()
+            }, 5000)
+          } else {
+            notify("error", `${data.error}`)
+          }
+        })
+      }
+      const removeBan = document.querySelector("#remove-ban")
+      if(removeBan) {
+        removeBan.addEventListener("click", async(event) => {
+          event.preventDefault()
+
+          const email = removeBan.getAttribute("value")
+          const res = await fetch('/control-route/remove-ban', {
+            method: "post",
+            body: JSON.stringify({ email }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.reload()
+            }, 5000)
+          } else {
+            notify("error", `${data.error}`)
+          }
+        })
+      }
+      const loginUser = document.querySelector("#login-user")
+      loginUser.addEventListener("click", async (event) => {
+        event.preventDefault()
+
+        const email = loginUser.getAttribute("value")
+        
+        const res = await fetch('/control-route/login-user', {
+          method: "post",
+          body: JSON.stringify({ email }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        const data = await res.json()
+        if(data.ok) {
+          notify("success", `${data.message}`)
+          window.open('/dashboard', "_blank")
+        } else {
+          notify("error", `${data.error}`)
+        }
+      })
+
+      const passwordReset = document.getElementById("password-reset")
+      passwordReset.addEventListener("click", async(event) => {
+        event.preventDefault()
+
+        const email = document.querySelector("#password_reset").value
+        const password = document.querySelector("#new_password").value
+        const confirm_password = document.querySelector("#confirm_password").value
+
+        if(password === confirm_password) {
+          const res = await fetch('/control-route/reset-password', {
+            method: "post",
+            body: JSON.stringify({ email, password }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            notify("success", `${data.message}`)
+            document.querySelector("#new_password").value = ''
+            document.querySelector("#confirm_password").value = ''
+          } else {
+            notify("error", `${data.error}`)
+            document.querySelector("#new_password").value = ''
+            document.querySelector("#confirm_password").value = ''
+          }
+        } else {
+          document.querySelector("#new_password").value = ''
+          document.querySelector("#confirm_password").value = ''
+          notify(error, "Passwords do not match")
+        }
+      })
+    </script>
+  </body>
+
+</html>

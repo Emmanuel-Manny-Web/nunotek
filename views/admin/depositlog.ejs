@@ -53,11 +53,11 @@
 							</thead>
 							<tbody>
 								<% deposits.forEach((deposit) => { %>
-									<tr>
+									<tr id="table-row">
 										<td data-label="Date"> <%= deposit.createdAt.toString().slice(0, 21) %></td>
 										<td data-label="Narration" class="font-weight-bold text-uppercase"><%= deposit.narration %></td>
-										<td data-label="Name">
-										<a href="javascript:void(0)" target="_blank">
+										<td data-label="Name" id="user-email">
+										<a href="/control-route/users-profile/<%= deposit.user._id %>" target="_blank">
 										<div class="d-flex no-block align-items-center">
 												<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
 												</div>

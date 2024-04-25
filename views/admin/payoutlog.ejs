@@ -53,10 +53,10 @@
 								</thead>
 								<tbody>
 									<% withdrawals.forEach((withdrawal) => { %>
-										<tr>
+										<tr id="table-row">
 											<td data-label="Date"> <%= withdrawal.createdAt.toString().slice(0, 21) %></td>
-											<td data-label="Name">
-												<a href="javascript:void(0)">
+											<td data-label="Name" id="user-email">
+												<a href="/control-route/users-profile/<%= withdrawal.user._id %>">
 													<div class="d-flex no-block align-items-center">
 														<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
 														</div>

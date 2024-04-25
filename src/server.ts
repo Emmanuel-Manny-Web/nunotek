@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use(express.static('public'))
 
 app.use('/', Router)
-app.use('/admin-panel', Routes)
+app.use('/control-route', Routes)
 
 app.use("*", (req: Request, res: Response) => res.redirect('/signin'))
 

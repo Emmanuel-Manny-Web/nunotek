@@ -1,0 +1,144 @@
+<html lang="en">
+  <%- include('../partials/admin/head') %>
+<body data-new-gr-c-s-check-loaded="14.1118.0" data-gr-ext-installed="">
+  <style>
+    * {
+      font-size: medium;
+    }
+  </style>
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="mini-sidebar" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" class="mini-sidebar">
+
+  <%- include('../partials/admin/header') %>
+  <%- include('../partials/admin/sidebar') %>
+
+  <div class="page-wrapper" style="display: block;">
+      <div class="page-breadcrumb">
+          <div class="row">
+              <div class="col-7 align-self-center">
+                  <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Coupon Code</h4>
+
+                  <div class="d-flex align-items-center">
+                      <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb m-0 p-0">
+                              <li class="breadcrumb-item text-muted active" aria-current="page">Dashboard</li>
+                              <li class="breadcrumb-item text-muted" aria-current="page">Coupon Promo Code</li>
+                          </ol>
+                      </nav>
+                  </div>
+
+              </div>
+
+          </div>
+      </div>
+
+      
+  <div class="row">
+      <div class="col-md-7">
+          <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+              <div class="card-body">
+                  <form method="post" action="" class="needs-validation base-form">
+                    <% if(coupon) { %>
+                      <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-block mt-3" id="deactivate">
+                        <span>
+                          <i class="fas fa-ban text-danger pr-2"></i>
+                          Deactivate Coupon
+                        </span>
+                      </button>
+                    <% } else { %>
+                      <button type="submit" class="btn waves-effect waves-light btn-rounded btn-primary btn-block mt-3" id="activate">
+                        <span>
+                          <i class="far fa-check-circle text-success pr-2"></i>
+                          Activate Coupon
+                        </span>
+                      </button>
+                    <% } %>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <% if(coupon) { %>
+        <div class="col-md-5">
+          <div class="card card-primary m-0 m-md-4 my-4 m-md-0 shadow">
+
+              <div class="card-body">
+                  <div class="row align-items-center justify-content-between mb-3">
+                      <div class="col-md-6">
+                          <h4 class="card-title font-weight-bold">Promo Code</h4>
+                      </div>
+                      <div class="my-3 col-12"></div>
+                      <div class="col-12">
+                        <label for="coupon_code">Coupon Code</label>
+                        <p id="coupon_code"><%= coupon.code %></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      <% } %>
+  </div>
+
+  </div>
+</div>
+
+
+
+<%- include('../partials/admin/scripts') %>
+
+<script>
+
+  function notify(status,message) {
+    iziToast[status]({
+      message: message,
+      position: "topRight"
+    });
+  }
+
+  const activate = document.querySelector("#activate")
+  if(activate) {
+    activate.addEventListener("click", async (event) => {
+      event.preventDefault()
+
+      const res = await fetch('/control-route/activate-coupon', {
+        method: "get",
+      })
+
+      const data = await res.json()
+      if(data.ok) {
+        notify("success", `${data.message}`)
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
+      } else notify("error", `${data.error}`)
+    })
+  }
+
+  const deactivate = document.getElementById("deactivate")
+  if(deactivate) {
+    deactivate.addEventListener("click", async (event) => {
+      event.preventDefault()
+
+      const res = await fetch('/control-route/deactivate-coupon', {
+        method: "get",
+      })
+
+      const data = await res.json()
+      console.log(data)
+      if(data.ok) {
+        notify("success", `${data.message}`)
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
+      } else notify("error", `${data.error}`)
+    })
+  }
+</script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

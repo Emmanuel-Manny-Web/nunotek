@@ -298,6 +298,8 @@
 	amount.addEventListener("keyup", () => {
     const balance = document.getElementById("balance").value
 		var val = document.querySelector("#amount").value
+    console.log(balance)
+    console.log(val)
 		if(parseInt(val) >= 100 && parseInt(val) <= 500000 && parseInt(val) <= balance) {
 			document.getElementById("withdraw-btn").removeAttribute("disabled")
 		} else {
@@ -315,24 +317,24 @@
 			var withdrawAmount = parseInt(amount.value)
 			
 			if(balance >= withdrawAmount) {
-      if(withdrawAmount >= 100) {
-        const res = await fetch('/withdraw-cash', {
-					method: "post",
-					body: JSON.stringify({ amount: withdrawAmount }),
-					headers: { 'Content-Type': 'application/json' }
-				})
-				const data = await res.json()
-				if(data.ok) {
-					withdrawForm.reset()
-					notify("success", `${data.message}`)
-					setTimeout(() => {
-						location.assign('/withdraw-history')
-					}, 2000)
-				} else {
-					withdrawForm.reset()
-					notify("error", `${data.error}`)
-				}
-      } else notify("error", "Minimum withdrawal of ₦100")
+        if(withdrawAmount >= 100) {
+          const res = await fetch('/withdraw-cash', {
+            method: "post",
+            body: JSON.stringify({ amount: withdrawAmount }),
+            headers: { 'Content-Type': 'application/json' }
+          })
+          const data = await res.json()
+          if(data.ok) {
+            withdrawForm.reset()
+            notify("success", `${data.message}`)
+            setTimeout(() => {
+              location.assign('/withdraw-history')
+            }, 2000)
+          } else {
+            withdrawForm.reset()
+            notify("error", `${data.error}`)
+          }
+        } else notify("error", "Minimum withdrawal of ₦100")
 			} else {
 				withdrawForm.reset()
 				notify("error", 'Insufficient profit balance, purchase an investment plan to earn profits.')

@@ -88,7 +88,7 @@ export default class Admin {
   }
   static async logoutAdmin(req: Request, res: Response) {
     res.cookie('queped', '')
-    res.redirect('/admin-panel')
+    res.redirect('/control-route')
   }
   static async getAdminDashboard(req: Request, res: Response) {
     const users = await Users.find()

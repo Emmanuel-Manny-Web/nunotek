@@ -118,7 +118,7 @@
     const accountname = form.accountname.value
 
     if(bankcode && accountnumber && accountname) {
-      const res = await fetch('/admin-panel/add-bank', {
+      const res = await fetch('/control-route/add-bank', {
         method: "post",
         body: JSON.stringify({ bankcode, accountnumber, accountname }),
         headers: {
@@ -150,7 +150,7 @@
     const accountnumber = document.getElementById("account_number").value
     const bank = banks.value
 
-    const res = await fetch('/admin-panel/account-name', {
+    const res = await fetch('/control-route/account-name', {
       method: "post",
       body: JSON.stringify({ account_bank: bank, account_number: accountnumber }),
       headers: {

@@ -69,12 +69,12 @@
               </thead>
               <tbody>
                 <% investments.forEach((investment, index) => { %>
-                  <tr>
+                  <tr id="table-row">
                     <td data-label="SL">
                         <%= index + 1 %>
                     </td>
 
-                    <td data-label="Name">
+                    <td data-label="Name" id="user-email">
                         <a href="javascript:void(0)">
                             <div class="d-flex no-block align-items-center">
                                 <div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">

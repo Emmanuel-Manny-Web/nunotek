@@ -517,9 +517,9 @@
 										</thead>
 										<tbody>
 											<% latestUsers.forEach((user, index) => { %>
-												<tr>
+												<tr id="table-row">
 													<td data-label="Name">
-														<a href="" target="_blank">
+														<a href="/control-route/users-profile/<%= user._id %>" target="_blank">
 															<div class="d-flex no-block align-items-center">
 																<div class="">
 																	<h5 class="text-dark mb-0 font-13 font-weight-medium ml-2"><%= user.firstname %> <%= user.lastname %> </h5>
@@ -527,7 +527,7 @@
 															</div>
 														</a>
 													</td>
-													<td data-label="Email"><%= user.email %></td>
+													<td data-label="Email" id="user-email"><%= user.email %></td>
 													<td data-label="Balance" class="font-weight-medium">₦<%= Number(user.wallet[0].amount).toLocaleString() %></td>
 													<td data-label="Profit Balance" class="font-weight-medium">₦<%= Number(user.wallet[0].profit).toLocaleString() %></td>
 													<td data-label="Withdraw Status">
@@ -554,9 +554,10 @@
 																		Activate Withdrawal
 																	</a>
 																<% } %>
-																<!-- <a class="dropdown-item loginAccount" type="button" data-toggle="modal" data-target="#signIn" data-route="">
-																	<i class="fas fa-sign-in-alt text-success pr-2" aria-hidden="true"></i> Login as User
-																</a> -->
+																<a class="dropdown-item loginAccount" type="button" id="login-user" value="<%= user.email %>">
+                                  <i class="fas fa-sign-in-alt text-success pr-2" aria-hidden="true"></i>
+                                  Login as User
+                                </a>
 															</div>
 														</div>
 													</td>
@@ -618,7 +619,7 @@
 		suspend.addEventListener("click", async (event)  => {
 			event.preventDefault()
 			const email = suspend.getAttribute("value")
-			const res = await fetch('/admin-panel/suspend-withdrawal', {
+			const res = await fetch('/control-route/suspend-withdrawal', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: { 'Content-Type': 'application/json' }
@@ -639,7 +640,7 @@
 		activate.addEventListener("click", async (event) => {
 			event.preventDefault()
 			const email = activate.getAttribute("value")
-			const res = await fetch('/admin-panel/activate-withdrawal', {
+			const res = await fetch('/control-route/activate-withdrawal', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: { 'Content-Type': 'application/json' }
@@ -655,6 +656,28 @@
 			}
 		})
 	})
+  const loginUsers = document.querySelectorAll("#login-user")
+  loginUsers.forEach((loginUser) => {
+    loginUser.addEventListener("click", async (event) => {
+      event.preventDefault()
+
+      const email = loginUser.getAttribute("value")
+      const res = await fetch('/control-route/login-user', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				window.open('/dashboard', "_blank")
+			} else {
+				notify("error", `${data.error}`)
+			}
+    })
+  })
 </script>
 
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>

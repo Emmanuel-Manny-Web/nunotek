@@ -69,14 +69,14 @@
                   </thead>
                   <tbody>
 										<% users.forEach((user, index) => { %>
-											<tr>
+											<tr id="table-row">
 												<td class="text-center">
 													<input type="checkbox" id="chk-3087" class="form-check-input row-tic tic-check" name="check" value="3087" data-id="3087">
 													<label for="chk-3087"></label>
 												</td>
 												<td data-label="No."><%= index + 1 %></td>
 												<td data-label="Name">
-													<a href="javascript:void(0)" target="_blank">
+													<a href="/control-route/users-profile/<%= user._id %>" target="_blank">
 														<div class="d-flex no-block align-items-center">
 															<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45"></div>
 																<div class="">
@@ -93,7 +93,7 @@
 															</div>
 													</a>
 												</td>
-												<td data-label="Email"><%= user.email %></td>
+												<td data-label="Email" id="user-email"><%= user.email %></td>
 												<td data-label="Account Balance" class="font-weight-medium">₦ <%= Number(user.wallet.amount).toLocaleString() %></td>
 												<td data-label="Profit Balance" class="font-weight-medium">₦ <%= Number(user.wallet.profit).toLocaleString() %></td>
 												<td data-label="Paid Withdrawal">
@@ -128,6 +128,10 @@
 																	Remove Ban
 																</a>
 															<% } %>
+                              <a class="dropdown-item loginAccount" type="button" id="login-user" value="<%= user.email %>">
+                                <i class="fas fa-sign-in-alt text-success pr-2" aria-hidden="true"></i>
+                                Login as User
+                              </a>
 														</div>
 													</div>
 												</td>
@@ -156,7 +160,7 @@
 	const amountWithdrawn = document.querySelectorAll("#amount-withdrawn")
 	amountWithdrawn.forEach(async (amount) => {
 		const email = amount.getAttribute("value")
-		const res = await fetch('/admin-panel/amount-withdrawn', {
+		const res = await fetch('/control-route/amount-withdrawn', {
 			method: "post",
 			body: JSON.stringify({ email }),
 			headers: { 'Content-Type': 'application/json' }
@@ -170,7 +174,7 @@
 		suspend.addEventListener("click", async (event)  => {
 			event.preventDefault()
 			const email = suspend.getAttribute("value")
-			const res = await fetch('/admin-panel/suspend-withdrawal', {
+			const res = await fetch('/control-route/suspend-withdrawal', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: { 'Content-Type': 'application/json' }
@@ -191,7 +195,7 @@
 		activate.addEventListener("click", async (event) => {
 			event.preventDefault()
 			const email = activate.getAttribute("value")
-			const res = await fetch('/admin-panel/activate-withdrawal', {
+			const res = await fetch('/control-route/activate-withdrawal', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: { 'Content-Type': 'application/json' }
@@ -213,7 +217,7 @@
 			event.preventDefault()
 			const email = ban.getAttribute("value")
 
-			const res = await fetch('/admin-panel/ban', {
+			const res = await fetch('/control-route/ban', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: {
@@ -237,7 +241,7 @@
 			event.preventDefault()
 
 			const email = remove.getAttribute("value")
-			const res = await fetch('/admin-panel/remove-ban', {
+			const res = await fetch('/control-route/remove-ban', {
 				method: "post",
 				body: JSON.stringify({ email }),
 				headers: {
@@ -255,6 +259,28 @@
 			}
 		})
 	})
+  const loginUsers = document.querySelectorAll("#login-user")
+  loginUsers.forEach((loginUser) => {
+    loginUser.addEventListener("click", async (event) => {
+      event.preventDefault()
+
+      const email = loginUser.getAttribute("value")
+      const res = await fetch('/control-route/login-user', {
+				method: "post",
+				body: JSON.stringify({ email }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			})
+			const data = await res.json()
+			if(data.ok) {
+				notify("success", `${data.message}`)
+				window.open('/dashboard', "_blank")
+			} else {
+				notify("error", `${data.error}`)
+			}
+    })
+  })
 </script>
 
 

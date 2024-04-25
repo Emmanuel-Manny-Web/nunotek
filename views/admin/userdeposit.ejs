@@ -55,11 +55,11 @@
 								</thead>
 								<tbody>
 									<% deposits.forEach((deposit) => { %>
-										<tr>
+										<tr id="table-row">
 											<td data-label="Date"> <%= deposit.createdAt.toString().slice(0, 21) %></td>
 											<td data-label="Trx Number" class="font-weight-bold text-uppercase"><%= deposit.narration.toUpperCase() %></td>
-											<td data-label="Name">
-													<a href="javascript:void(0)" target="_blank">
+											<td data-label="Name" id="user-email">
+													<a href="/control-route/users-profile/<%= deposit.user._id %>" target="_blank">
 															<div class="d-flex no-block align-items-center">
 																<div class="mr-3"><img src="/admin/images/default.png" alt="user" class="rounded-circle" width="45" height="45">
 																</div>
@@ -171,7 +171,7 @@
 		const narration = document.querySelector("#narration").innerHTML
 		const sender = document.querySelector("#sender").innerHTML
 
-		const res = await fetch('/admin-panel/approve-deposit', {
+		const res = await fetch('/control-route/approve-deposit', {
 			method: "post",
 			body: JSON.stringify({ email, amount, narration, sender }),
 			headers: { 'Content-Type': 'application/json' }
@@ -195,7 +195,7 @@
 		const narration = document.querySelector("#narration").innerHTML
 		const sender = document.querySelector("#sender").innerHTML
 
-		const res = await fetch('/admin-panel/reject-deposit', {
+		const res = await fetch('/control-route/reject-deposit', {
 			method: "post",
 			body: JSON.stringify({ email, amount, narration, sender }),
 			headers: { 'Content-Type': 'application/json' }
@@ -216,7 +216,7 @@
 		event.preventDefault()
 		const email = document.querySelector("#email").innerHTML
 
-		const res = await fetch('/admin-panel/ban', {
+		const res = await fetch('/control-route/ban', {
 			method: "post",
 			body: JSON.stringify({ email }),
 			headers: {
