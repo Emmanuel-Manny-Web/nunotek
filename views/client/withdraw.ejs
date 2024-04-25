@@ -298,8 +298,6 @@
 	amount.addEventListener("keyup", () => {
     const balance = document.getElementById("balance").value
 		var val = document.querySelector("#amount").value
-    console.log(balance)
-    console.log(val)
 		if(parseInt(val) >= 100 && parseInt(val) <= 500000 && parseInt(val) <= balance) {
 			document.getElementById("withdraw-btn").removeAttribute("disabled")
 		} else {

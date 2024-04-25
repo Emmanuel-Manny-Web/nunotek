@@ -24,20 +24,20 @@
           
 
           <ul class="navbar-nav float-right">
-              <!-- <li class="nav-item d-none d-md-block">
+              <li class="nav-item d-block d-md-block">
                   <a class="nav-link" href="javascript:void(0)">
                       <form class="navbar-search-form" onsubmit="return false;">
                           <div class="customize-input">
-                              <input class="form-control custom-shadow custom-radius border-0 bg-white" type="search" name="navbar_search" id="navbar_search" autocomplete="off" placeholder="Search" aria-label="Search">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search form-control-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                              <input class="form-control custom-shadow custom-radius border-0 bg-white" type="search" name="navbar_search" id="navbar_search" autocomplete="off" placeholder="Search" aria-label="Search" onkeyup="myFunction()">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search form-control-icon" style="margin-top: -18px;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                           </div>
 
-                          <div id="navbar_search_result_area">
+                          <!-- <div id="navbar_search_result_area">
                               <ul class="navbar_search_result"></ul>
-                          </div>
+                          </div> -->
                       </form>
                   </a>
-              </li> -->
+              </li>
 
               <!-- ============================================================== -->
               <!-- User profile and search
@@ -50,7 +50,7 @@
 
 
                   <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img src="https://script.bugfinder.net/hyippro/goldblack/assets/uploads/admin/62e7e5ae2dfe11659364782.png" alt="user" class="rounded-circle width-40p">
+                      <img src="https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg" alt="user" class="rounded-circle width-40p">
                       <span class="ml-2 d-none d-lg-inline-block"><span class="text-dark">Hello,</span> <span class="text-dark">admin</span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down svg-icon"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
                   </a>
 
@@ -82,3 +82,23 @@
 
   </nav>
 </header>
+<script>
+  function myFunction() {
+  // Declare variables
+  var input, filter, row, a, i, txtValue;
+  input = document.getElementById('navbar_search')
+  filter = input.value.toLowerCase()
+  row = document.querySelectorAll("#table-row")
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < row.length; i++) {
+    a = row[i].querySelector("#user-email")
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+      row[i].style.display = ""
+    } else {
+      row[i].style.display = "none"
+    }
+  }
+}
+</script>

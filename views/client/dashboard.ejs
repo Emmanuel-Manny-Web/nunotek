@@ -396,7 +396,12 @@
             })
 
             const data = await res.json()
-            if (data.ok) location.assign('/investment-log')
+            if (data.ok) {
+              notify("success", "Successfully acquired investment plan")
+              setTimeout(() => {
+                location.assign('/investment-log')
+              }, 1000)
+            }
             else notify("error", `${data.error}`)
           })
         })
