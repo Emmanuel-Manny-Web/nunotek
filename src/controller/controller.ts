@@ -177,7 +177,7 @@ export default class API {
       const investments = await Investments.find({ user: referral.email, active: true })
       investments.map((investment) => {
         thirdGen.push({ user: referral.email, product: investment.product, cost: investment.deposit })
-        sumTotalThirdGen.push(investment.deposit * 0.01)
+        sumTotalThirdGen.push(investment.deposit * 0.03)
         investment.createdAt.toString().slice(0, 15) === today ? todayIncomeThird.push(investment.deposit * 0.01) : todayIncomeThird
       })
     }) : null
@@ -448,9 +448,9 @@ export default class API {
         if (amount >= item.deposit) {
           try {
             const { parent, grandparent, greatgrandparent } = await Referrer.findOne({ email: user.email }) as IReferrer
-            const bonus = 0.2 * item.deposit
-            const grandBonus = 0.1 * item.deposit
-            const greatgrandBonus = 0.05 * item.deposit
+            const bonus = 0.1 * item.deposit
+            const grandBonus = 0.05 * item.deposit
+            const greatgrandBonus = 0.03 * item.deposit
             parent ? 
             await Wallet.findOneAndUpdate({ email: parent }, { $inc: { profit: bonus }}) && await Notification.create({ email: parent, amount: bonus, message: `20% bonus from ${item.name} investment plan purchased by ${user.email}` })
             : null
