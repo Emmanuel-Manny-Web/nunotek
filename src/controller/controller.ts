@@ -478,14 +478,14 @@ export default class API {
     const { email, firstname, lastname } = res.locals.user
     const transactionRef = generateNarration()
     const deposit = await Deposit.findOne({ email, status: "Pending" })
-    if (parseInt(amount) >= 100) {
+    if (parseInt(amount) >= 3000) {
       if (!deposit) {
         await Deposit.create({ sender: firstname + " " + lastname, narration: transactionRef, email, amount })
         res.status(200).json({ ok: true, message: "Your recharge request has been successfully made, ensure to visit your recharge records" })
       } else {
         res.status(201).json({ ok: true, error: "You have a pending recharge request."})
       }
-    } else res.status(201).json({ ok: false, error: "Minimum recharge of 1,500"})
+    } else res.status(201).json({ ok: false, error: "Minimum recharge of 3,000"})
   }
   static async getUserWithdrawRecord(req: Request, res: Response) {
     const { email } = res.locals.user

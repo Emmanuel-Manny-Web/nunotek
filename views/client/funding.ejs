@@ -8,8 +8,8 @@
   <title>
     <%= title %>
   </title>
-  <link rel="icon" href="images/favicon.jpeg" type="image/x-icon">
-  <link rel="apple-touch-icon" href="images/favicon.jpeg">
+  <link rel="icon" href="images/nunotek.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="images/nunotek.png">
 
   <link rel="stylesheet" href="vipalat/css/bootstrap.min.css">
 
@@ -448,7 +448,7 @@
 
       
       const amount = document.getElementById("amount").value;
-      if(amount >= 100) {
+      if(amount >= 3000) {
         if (amount.value !== '') {
           const res = await fetch("/deposit", {
             method: "post",
