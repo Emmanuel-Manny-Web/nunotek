@@ -66,13 +66,13 @@ export default class Handler {
                       account_number: account.accountnumber,
                       amount: paid,
                       currency: "NGN",
-                      narration: "Nunotek",  
+                      narration: "Nunotek Payment",  
                       reference: `TRF-${Date.now()}`
                     }
                     const response = await flw.Transfer.initiate(payload)
                     const { data } = response
                     setTimeout(async () => {
-                      if (Object.keys(data).some((key) => key === 'id')) {
+                      if (data !== null) {
                         const { data: result } = await flw.Transfer.get_a_transfer({ id: JSON.stringify(data.id) })
                         await Wallet.findOneAndUpdate({ email: wallet.email }, {
                           profit: wallet.profit - parseInt(amount)
@@ -95,9 +95,9 @@ export default class Handler {
                           res.status(200).json({ ok: true, message: "Withdrawal request has been made, payment will be received shortly." })
                         } 
                       } else {
-                        await Withdraw.create({ email: wallet.email, amount: paid, charge: deduct, withdrawalID: JSON.stringify(data.id), status: "Declined" })
+                        await Withdraw.create({ email: wallet.email, amount: paid, charge: deduct, status: "Declined" })
                         await Notification.create({ email: wallet.email, amount: paid, message: `Failed to process withdrawal of ₦${Number(paid).toLocaleString()}` })
-                        res.status(200).json({ ok: true, message: "Withdrawal request has been made, payment will be received shortly." })
+                        res.status(200).json({ ok: false, error: "Error processing request" })
                       }
                     }, 1000)
                   } else {
@@ -128,6 +128,7 @@ export default class Handler {
   static async successfulWithdrawal(req: Request, res: Response) {
     const { data, event } = req.body
     const signature = req.headers['verif-hash']
+    console.log(data)
     if (data.status === 'SUCCESSFUL' && event === 'transfer.completed' && process.env.FLW_SECRET_WITHDRAWAL_HASH === signature) {
       await Withdraw.findOneAndUpdate({ withdrawalID: data.id }, { status: "Paid" })
       res.status(201).json({ ok: true })
