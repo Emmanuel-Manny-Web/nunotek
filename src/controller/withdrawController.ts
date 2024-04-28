@@ -17,7 +17,6 @@ export default class Handler {
     const withdrawal = await Withdraw.findOne({ email, status: "Pending" }) as IWithdraw
     if (withdrawal) {
       const amount = withdrawal.amount + withdrawal.charge
-      console.log(withdrawal)
       if (withdrawal.withdrawalID) {
         const response = await fetch(`https://api.flutterwave.com/v3/transfers/${withdrawal.withdrawalID}`, {
           method: "get",
