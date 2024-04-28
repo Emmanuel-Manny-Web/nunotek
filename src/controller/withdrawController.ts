@@ -23,18 +23,28 @@ export default class Handler {
           Authorization: "Bearer " + process.env.FLW_PAYOUT_SECRET_KEY!
         }
       })
-      const {data} = await response.json()
-      if(data.status === "SUCCESSFUL") {
-        await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Paid" }, { new: true })
-      }
-      else if (data.status === 'FAILED') {
+      const { data } = await response.json()
+      if (data !== null) {
+        if(data.status === "SUCCESSFUL") {
+          await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Paid" }, { new: true })
+        }
+        else if (data.status === 'FAILED') {
+          await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Declined" }, { new: true })
+          await Wallet.findOneAndUpdate({ email: wallet.email }, {
+            $inc: {
+              profit: amount
+            }
+          })
+          await Notification.create({ email, message: `Refund for failed withdrawal`, amount: data.amount + withdrawal.charge })
+        }
+      } else {
         await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Declined" }, { new: true })
-        await Wallet.findOneAndUpdate({ email: wallet.email }, {
-          $inc: {
-            profit: amount
-          }
-        })
-        await Notification.create({ email, message: `Refund for failed withdrawal`, amount: data.amount + withdrawal.charge })
+          await Wallet.findOneAndUpdate({ email: wallet.email }, {
+            $inc: {
+              profit: amount
+            }
+          })
+          await Notification.create({ email, message: `Refund for failed withdrawal`, amount: data.amount + withdrawal.charge })
       }
     }
     const withdrawals = await Withdraw.find({ email }).sort({ createdAt: -1 })
