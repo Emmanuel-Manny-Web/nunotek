@@ -17,14 +17,14 @@ export default class Handler {
     const withdrawal = await Withdraw.findOne({ email, status: "Pending" }) as IWithdraw
     if (withdrawal) {
       const amount = withdrawal.amount + withdrawal.charge
-      const response = await fetch(`https://api.flutterwave.com/v3/transfers/${withdrawal.withdrawalID}`, {
-        method: "get",
-        headers: {
-          Authorization: "Bearer " + process.env.FLW_PAYOUT_SECRET_KEY!
-        }
-      })
-      const { data } = await response.json()
-      if (data !== null) {
+      if (withdrawal.withdrawalID !== null) {
+        const response = await fetch(`https://api.flutterwave.com/v3/transfers/${withdrawal.withdrawalID}`, {
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + process.env.FLW_PAYOUT_SECRET_KEY!
+          }
+        })
+        const { data } = await response.json()
         if(data.status === "SUCCESSFUL") {
           await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Paid" }, { new: true })
         }
@@ -39,12 +39,12 @@ export default class Handler {
         }
       } else {
         await Withdraw.findOneAndUpdate({ email, status: "Pending" }, { status: "Declined" }, { new: true })
-          await Wallet.findOneAndUpdate({ email: wallet.email }, {
-            $inc: {
-              profit: amount
-            }
-          })
-          await Notification.create({ email, message: `Refund for failed withdrawal`, amount: data.amount + withdrawal.charge })
+        await Wallet.findOneAndUpdate({ email: wallet.email }, {
+          $inc: {
+            profit: amount
+          }
+        })
+        await Notification.create({ email, message: `Refund for failed withdrawal`, amount: withdrawal.amount + withdrawal.charge })
       }
     }
     const withdrawals = await Withdraw.find({ email }).sort({ createdAt: -1 })
